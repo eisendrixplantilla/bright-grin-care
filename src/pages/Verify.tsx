@@ -60,9 +60,6 @@ export default function Verify() {
                 Verify Account
               </Button>
             </form>
-            <p className="mt-4 text-center text-xs text-muted-foreground">
-              Demo code: <span className="font-mono font-semibold text-foreground">123456</span>
-            </p>
           </CardContent>
         </Card>
       </motion.div>
