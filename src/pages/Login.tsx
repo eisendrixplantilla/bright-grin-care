@@ -76,11 +76,6 @@ export default function Login() {
               Don't have an account?{" "}
               <Link to="/register" className="text-primary font-medium hover:underline">Create Account</Link>
             </div>
-            <div className="mt-6 p-3 rounded-lg bg-secondary text-xs text-secondary-foreground">
-              <p className="font-semibold mb-1">Demo Credentials:</p>
-              <p>Admin: admin@dentalcare.com / admin123</p>
-              <p>Patient: patient@example.com / patient123</p>
-            </div>
           </CardContent>
         </Card>
       </motion.div>
