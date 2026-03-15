@@ -66,16 +66,6 @@ export default function Register() {
                   <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="pl-10" required minLength={6} />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label>Account Type</Label>
-                <Select value={role} onValueChange={(v) => setRole(v as UserRole)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="patient">Patient</SelectItem>
-                    <SelectItem value="admin">Clinic Staff</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
               <Button type="submit" className="w-full gradient-primary text-primary-foreground" disabled={isLoading}>
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 Create Account
