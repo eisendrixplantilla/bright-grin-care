@@ -21,7 +21,7 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(name, email, password, role);
+      await register(name, email, password, "patient");
       toast.success("Account created! Please verify your email.");
       navigate("/verify");
     } catch (err: any) {
