@@ -23,8 +23,8 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 // Mock users for demo
 const MOCK_USERS: (User & { password: string })[] = [
-  { id: "1", email: "admin@ayagdental.com", name: "Dr. Sarah Chen", role: "admin", verified: true, password: "admin123" },
-  { id: "2", email: "patient@example.com", name: "John Smith", role: "patient", verified: true, password: "patient123" },
+  { id: "1", email: "admin@admin.com", name: "Dr. Sarah Chen", role: "admin", verified: true, password: "admin123" },
+  { id: "2", email: "user@user.com", name: "John Smith", role: "patient", verified: true, password: "user123" },
 ];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
