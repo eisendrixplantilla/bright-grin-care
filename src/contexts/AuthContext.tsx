@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 // Mock users for demo
 const MOCK_USERS: (User & { password: string })[] = [
-  { id: "1", email: "admin@dentalcare.com", name: "Dr. Sarah Chen", role: "admin", verified: true, password: "admin123" },
+  { id: "1", email: "admin@ayagdental.com", name: "Dr. Sarah Chen", role: "admin", verified: true, password: "admin123" },
   { id: "2", email: "patient@example.com", name: "John Smith", role: "patient", verified: true, password: "patient123" },
 ];
 
