@@ -21,9 +21,9 @@ export default function AdminSettings() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><Label>Clinic Name</Label><Input defaultValue="DentalCare Clinic" /></div>
+              <div><Label>Clinic Name</Label><Input defaultValue="Ayag Dental Clinic" /></div>
               <div><Label>Phone</Label><Input defaultValue="(02) 8123-4567" /></div>
-              <div><Label>Email</Label><Input defaultValue="info@dentalcare.com" /></div>
+              <div><Label>Email</Label><Input defaultValue="info@ayagdental.com" /></div>
               <div><Label>Address</Label><Input defaultValue="123 Health St, Manila" /></div>
             </div>
             <Button className="gradient-primary text-primary-foreground" onClick={() => toast.success("Settings saved")}>Save Changes</Button>
