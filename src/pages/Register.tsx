@@ -33,10 +33,8 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl gradient-primary mb-4">
-            <Stethoscope className="w-8 h-8 text-primary-foreground" />
-          </div>
-          <h1 className="text-3xl font-bold font-heading text-foreground">DentalCare</h1>
+          <img src="/clinic-logo.png" alt="Ayag Dental Clinic" className="w-20 h-20 mx-auto mb-4 rounded-2xl object-contain" />
+          <h1 className="text-3xl font-bold font-heading text-foreground">Ayag Dental Clinic</h1>
           <p className="text-muted-foreground mt-1">Create your account</p>
         </div>
 

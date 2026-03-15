@@ -37,9 +37,9 @@ export default function AdminSettings() {
           <CardContent>
             <div className="space-y-3">
               {[
-                { name: "Dr. Sarah Chen", role: "Admin", email: "admin@dentalcare.com" },
-                { name: "Dr. Mike Johnson", role: "Dentist", email: "mike@dentalcare.com" },
-                { name: "Nurse Amy Lee", role: "Staff", email: "amy@dentalcare.com" },
+                { name: "Dr. Sarah Chen", role: "Admin", email: "admin@ayagdental.com" },
+                { name: "Dr. Mike Johnson", role: "Dentist", email: "mike@ayagdental.com" },
+                { name: "Nurse Amy Lee", role: "Staff", email: "amy@ayagdental.com" },
               ].map((user, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                   <div>
