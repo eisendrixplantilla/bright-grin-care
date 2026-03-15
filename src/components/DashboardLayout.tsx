@@ -27,7 +27,6 @@ const patientNav = [
   { title: "Dashboard", url: "/patient", icon: Stethoscope },
   { title: "Book Appointment", url: "/patient/book", icon: CalendarPlus },
   { title: "My Appointments", url: "/patient/appointments", icon: CalendarDays },
-  { title: "Queue Status", url: "/patient/queue", icon: Clock },
   { title: "Dental History", url: "/patient/history", icon: History },
 ];
 
