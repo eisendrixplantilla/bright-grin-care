@@ -17,28 +17,39 @@ import AdminQueue from "./pages/admin/AdminQueue";
 import AdminInventory from "./pages/admin/AdminInventory";
 import AdminSales from "./pages/admin/AdminSales";
 import AdminReports from "./pages/admin/AdminReports";
-import AdminSettings from "./pages/admin/AdminSettings";
+import AdminTreatment from "./pages/admin/AdminTreatment";
 
 import PatientDashboard from "./pages/patient/PatientDashboard";
 import PatientBook from "./pages/patient/PatientBook";
 import PatientAppointments from "./pages/patient/PatientAppointments";
 import PatientQueue from "./pages/patient/PatientQueue";
-import PatientHistory from "./pages/patient/PatientHistory";
+import PatientRecords from "./pages/patient/PatientRecords";
+
+import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
+import SuperAdminStaff from "./pages/superadmin/SuperAdminStaff";
+import SuperAdminSettings from "./pages/superadmin/SuperAdminSettings";
+import SuperAdminReports from "./pages/superadmin/SuperAdminReports";
 
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: string }) {
+function getRoleHome(role: string) {
+  if (role === "superadmin") return "/superadmin";
+  if (role === "admin") return "/admin";
+  return "/patient";
+}
+
+function ProtectedRoute({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
-  if (role && user.role !== role) return <Navigate to={user.role === "admin" ? "/admin" : "/patient"} replace />;
+  if (roles && !roles.includes(user.role)) return <Navigate to={getRoleHome(user.role)} replace />;
   return <>{children}</>;
 }
 
 function AuthRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  if (user) return <Navigate to={user.role === "admin" ? "/admin" : "/patient"} replace />;
+  if (user) return <Navigate to={getRoleHome(user.role)} replace />;
   return <>{children}</>;
 }
 
@@ -50,22 +61,28 @@ function AppRoutes() {
       <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
       <Route path="/verify" element={<Verify />} />
 
-      {/* Admin Routes */}
-      <Route path="/admin" element={<ProtectedRoute role="admin"><DashboardLayout><AdminDashboard /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/patients" element={<ProtectedRoute role="admin"><DashboardLayout><AdminPatients /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/appointments" element={<ProtectedRoute role="admin"><DashboardLayout><AdminAppointments /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/queue" element={<ProtectedRoute role="admin"><DashboardLayout><AdminQueue /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/inventory" element={<ProtectedRoute role="admin"><DashboardLayout><AdminInventory /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/sales" element={<ProtectedRoute role="admin"><DashboardLayout><AdminSales /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/reports" element={<ProtectedRoute role="admin"><DashboardLayout><AdminReports /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/admin/settings" element={<ProtectedRoute role="admin"><DashboardLayout><AdminSettings /></DashboardLayout></ProtectedRoute>} />
+      {/* Admin / Staff Routes */}
+      <Route path="/admin" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminDashboard /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/patients" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminPatients /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/appointments" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminAppointments /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/queue" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminQueue /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/treatment" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminTreatment /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/inventory" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminInventory /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/sales" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminSales /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/reports" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminReports /></DashboardLayout></ProtectedRoute>} />
 
       {/* Patient Routes */}
-      <Route path="/patient" element={<ProtectedRoute role="patient"><DashboardLayout><PatientDashboard /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/patient/book" element={<ProtectedRoute role="patient"><DashboardLayout><PatientBook /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/patient/appointments" element={<ProtectedRoute role="patient"><DashboardLayout><PatientAppointments /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/patient/queue" element={<ProtectedRoute role="patient"><DashboardLayout><PatientQueue /></DashboardLayout></ProtectedRoute>} />
-      <Route path="/patient/history" element={<ProtectedRoute role="patient"><DashboardLayout><PatientHistory /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/patient" element={<ProtectedRoute roles={["patient"]}><DashboardLayout><PatientDashboard /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/patient/book" element={<ProtectedRoute roles={["patient"]}><DashboardLayout><PatientBook /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/patient/appointments" element={<ProtectedRoute roles={["patient"]}><DashboardLayout><PatientAppointments /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/patient/queue" element={<ProtectedRoute roles={["patient"]}><DashboardLayout><PatientQueue /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/patient/records" element={<ProtectedRoute roles={["patient"]}><DashboardLayout><PatientRecords /></DashboardLayout></ProtectedRoute>} />
+
+      {/* Super Admin Routes */}
+      <Route path="/superadmin" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminDashboard /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/superadmin/staff" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminStaff /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/superadmin/settings" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminSettings /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/superadmin/reports" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminReports /></DashboardLayout></ProtectedRoute>} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

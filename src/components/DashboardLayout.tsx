@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -8,34 +8,56 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "@/components/NavLink";
 import {
-  Stethoscope, Users, CalendarDays, ListOrdered, Package, DollarSign, FileText, Settings, LogOut,
-  CalendarPlus, Clock, History, Menu
+  Users, CalendarDays, ListOrdered, Package, DollarSign, FileText, LogOut,
+  CalendarPlus, History, LayoutDashboard, ClipboardList, FolderOpen,
+  UserCog, Settings, BarChart3, Shield
 } from "lucide-react";
 
 const adminNav = [
-  { title: "Dashboard", url: "/admin", icon: Stethoscope },
+  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Patients", url: "/admin/patients", icon: Users },
   { title: "Appointments", url: "/admin/appointments", icon: CalendarDays },
   { title: "Queue", url: "/admin/queue", icon: ListOrdered },
-  { title: "Inventory", url: "/admin/inventory", icon: Package },
+  { title: "Treatment", url: "/admin/treatment", icon: ClipboardList },
   { title: "Sales", url: "/admin/sales", icon: DollarSign },
+  { title: "Inventory", url: "/admin/inventory", icon: Package },
   { title: "Reports", url: "/admin/reports", icon: FileText },
-  { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
 const patientNav = [
-  { title: "Dashboard", url: "/patient", icon: Stethoscope },
+  { title: "Dashboard", url: "/patient", icon: LayoutDashboard },
   { title: "Book Appointment", url: "/patient/book", icon: CalendarPlus },
   { title: "My Appointments", url: "/patient/appointments", icon: CalendarDays },
-  { title: "Dental History", url: "/patient/history", icon: History },
+  { title: "Queue Status", url: "/patient/queue", icon: ListOrdered },
+  { title: "Dental Records", url: "/patient/records", icon: FolderOpen },
 ];
+
+const superAdminNav = [
+  { title: "Dashboard", url: "/superadmin", icon: LayoutDashboard },
+  { title: "Staff Management", url: "/superadmin/staff", icon: UserCog },
+  { title: "System Settings", url: "/superadmin/settings", icon: Settings },
+  { title: "Reports & Analytics", url: "/superadmin/reports", icon: BarChart3 },
+];
+
+function getNav(role: string) {
+  if (role === "superadmin") return superAdminNav;
+  if (role === "admin") return adminNav;
+  return patientNav;
+}
+
+function getRoleLabel(role: string) {
+  if (role === "superadmin") return "Super Admin";
+  if (role === "admin") return "Clinic Staff";
+  return "Patient";
+}
 
 function AppSidebar() {
   const { user, logout } = useAuth();
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const nav = user?.role === "admin" ? adminNav : patientNav;
+  const nav = getNav(user?.role || "patient");
   const navigate = useNavigate();
+  const homeUrl = nav[0]?.url || "/";
 
   return (
     <Sidebar collapsible="icon" className="gradient-sidebar border-r-0">
@@ -54,7 +76,7 @@ function AppSidebar() {
               {nav.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end={item.url === "/admin" || item.url === "/patient"} className="text-sidebar-foreground/70 hover:bg-sidebar-accent" activeClassName="bg-sidebar-accent text-sidebar-primary font-medium">
+                    <NavLink to={item.url} end={item.url === homeUrl} className="text-sidebar-foreground/70 hover:bg-sidebar-accent" activeClassName="bg-sidebar-accent text-sidebar-primary font-medium">
                       <item.icon className="w-4 h-4 mr-2" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -70,7 +92,7 @@ function AppSidebar() {
             <div className="mb-3 p-3 rounded-lg bg-sidebar-accent">
               <p className="text-xs text-sidebar-foreground/70">Logged in as</p>
               <p className="text-sm font-medium text-sidebar-foreground truncate">{user?.name}</p>
-              <p className="text-xs text-sidebar-foreground/50 capitalize">{user?.role}</p>
+              <p className="text-xs text-sidebar-foreground/50">{getRoleLabel(user?.role || "patient")}</p>
             </div>
           )}
           <Button variant="ghost" className="w-full justify-start text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent" onClick={() => { logout(); navigate("/login"); }}>

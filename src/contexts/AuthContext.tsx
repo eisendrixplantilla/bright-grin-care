@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 
-export type UserRole = "admin" | "patient";
+export type UserRole = "admin" | "patient" | "superadmin";
 
 export interface User {
   id: string;
@@ -21,10 +21,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Mock users for demo
 const MOCK_USERS: (User & { password: string })[] = [
   { id: "1", email: "admin@admin.com", name: "Dr. Sarah Chen", role: "admin", verified: true, password: "admin123" },
   { id: "2", email: "user@user.com", name: "John Smith", role: "patient", verified: true, password: "user123" },
+  { id: "3", email: "super@admin.com", name: "Super Administrator", role: "superadmin", verified: true, password: "super123" },
 ];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
