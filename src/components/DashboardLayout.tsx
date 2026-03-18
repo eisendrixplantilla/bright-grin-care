@@ -15,10 +15,10 @@ import {
 
 const adminNav = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Patients", url: "/admin/patients", icon: Users },
+  { title: "Patient Records", url: "/admin/patients", icon: FolderOpen },
+  { title: "Patient Accounts", url: "/admin/accounts", icon: Users },
   { title: "Appointments", url: "/admin/appointments", icon: CalendarDays },
   { title: "Queue", url: "/admin/queue", icon: ListOrdered },
-  { title: "Treatment", url: "/admin/treatment", icon: ClipboardList },
   { title: "Sales", url: "/admin/sales", icon: DollarSign },
   { title: "Inventory", url: "/admin/inventory", icon: Package },
   { title: "Reports", url: "/admin/reports", icon: FileText },
@@ -28,7 +28,6 @@ const patientNav = [
   { title: "Dashboard", url: "/patient", icon: LayoutDashboard },
   { title: "Book Appointment", url: "/patient/book", icon: CalendarPlus },
   { title: "My Appointments", url: "/patient/appointments", icon: CalendarDays },
-  { title: "Queue Status", url: "/patient/queue", icon: ListOrdered },
   { title: "Dental Records", url: "/patient/records", icon: FolderOpen },
 ];
 
