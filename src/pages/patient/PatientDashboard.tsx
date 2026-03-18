@@ -22,11 +22,10 @@ export default function PatientDashboard() {
         <p className="text-muted-foreground">Welcome back, John Smith</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard title="Upcoming Appointments" value={2} icon={CalendarDays} delay={0} />
-        <StatCard title="Queue Number" value="#05" icon={Clock} trend="3 ahead of you" delay={0.1} />
-        <StatCard title="Total Visits" value={12} icon={History} delay={0.2} />
-        <StatCard title="Next Appointment" value="Mar 20" icon={CalendarDays} trend="Dental Cleaning" delay={0.3} />
+        <StatCard title="Total Visits" value={12} icon={History} delay={0.1} />
+        <StatCard title="Next Appointment" value="Mar 20" icon={CalendarDays} trend="Dental Cleaning" delay={0.2} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
