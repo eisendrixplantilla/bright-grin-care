@@ -65,6 +65,11 @@ export default function Login() {
                   <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="pl-10" required />
                 </div>
               </div>
+              <div className="flex justify-end">
+                <button type="button" className="text-xs text-primary hover:underline" onClick={() => toast.info("Please contact the clinic to reset your password.")}>
+                  Forgot password?
+                </button>
+              </div>
               <Button type="submit" className="w-full gradient-primary text-primary-foreground" disabled={isLoading}>
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 Sign In
