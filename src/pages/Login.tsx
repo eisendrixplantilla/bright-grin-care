@@ -66,9 +66,9 @@ export default function Login() {
                 </div>
               </div>
               <div className="flex justify-end">
-                <button type="button" className="text-xs text-primary hover:underline" onClick={() => toast.info("Please contact the clinic to reset your password.")}>
+                <Link to="/forgot-password" className="text-xs text-primary hover:underline">
                   Forgot password?
-                </button>
+                </Link>
               </div>
               <Button type="submit" className="w-full gradient-primary text-primary-foreground" disabled={isLoading}>
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
