@@ -32,6 +32,14 @@ const dentists = ["Dr. Ayag", "Dr. Santos", "Dr. Reyes", "Dr. Cruz"];
 
 const preferredTimes = ["Morning (9AM-12PM)", "Afternoon (1PM-5PM)"];
 
+// Mock dentist availability per time slot
+const dentistAvailability: Record<string, string[]> = {
+  "Dr. Ayag": ["9:00 AM", "9:30 AM", "10:00 AM", "1:00 PM", "1:30 PM", "2:00 PM"],
+  "Dr. Santos": ["10:00 AM", "10:30 AM", "11:00 AM", "2:00 PM", "2:30 PM", "3:00 PM"],
+  "Dr. Reyes": ["9:00 AM", "10:30 AM", "11:00 AM", "1:00 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
+  "Dr. Cruz": ["9:30 AM", "10:00 AM", "11:00 AM", "1:30 PM", "2:30 PM", "3:30 PM", "4:00 PM"],
+};
+
 export default function PatientBook() {
   const [submitted, setSubmitted] = useState(false);
   const [service, setService] = useState("");
@@ -98,7 +106,7 @@ export default function PatientBook() {
 
           <div>
             <Label>Available Dentist</Label>
-            <Select value={dentist} onValueChange={setDentist}>
+            <Select value={dentist} onValueChange={(val) => { setDentist(val); setTime(""); }}>
               <SelectTrigger><SelectValue placeholder="Choose a dentist" /></SelectTrigger>
               <SelectContent>{dentists.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent>
             </Select>
@@ -106,12 +114,26 @@ export default function PatientBook() {
 
           <div>
             <Label>Available Time Slot</Label>
+            {dentist && (
+              <p className="text-xs text-muted-foreground mt-1 mb-1">
+                <span className="inline-block w-2 h-2 rounded-full bg-primary mr-1 align-middle"></span> Available for {dentist}
+              </p>
+            )}
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2">
-              {timeSlots.map(slot => (
-                <Button key={slot} variant={time === slot ? "default" : "outline"} size="sm"
-                  className={time === slot ? "gradient-primary text-primary-foreground" : ""}
-                  onClick={() => setTime(slot)}>{slot}</Button>
-              ))}
+              {timeSlots.map(slot => {
+                const isAvailable = dentist ? dentistAvailability[dentist]?.includes(slot) : true;
+                const isSelected = time === slot;
+                return (
+                  <Button key={slot} variant={isSelected ? "default" : "outline"} size="sm"
+                    disabled={dentist ? !isAvailable : false}
+                    className={cn(
+                      isSelected ? "gradient-primary text-primary-foreground" : "",
+                      dentist && isAvailable && !isSelected ? "border-primary/50 bg-primary/5 text-primary hover:bg-primary/10" : "",
+                      dentist && !isAvailable ? "opacity-40" : ""
+                    )}
+                    onClick={() => setTime(slot)}>{slot}</Button>
+                );
+              })}
             </div>
           </div>
 
