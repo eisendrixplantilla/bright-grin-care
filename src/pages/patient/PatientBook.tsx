@@ -106,7 +106,7 @@ export default function PatientBook() {
 
           <div>
             <Label>Available Dentist</Label>
-            <Select value={dentist} onValueChange={setDentist}>
+            <Select value={dentist} onValueChange={(val) => { setDentist(val); setTime(""); }}>
               <SelectTrigger><SelectValue placeholder="Choose a dentist" /></SelectTrigger>
               <SelectContent>{dentists.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent>
             </Select>
