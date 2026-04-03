@@ -75,7 +75,7 @@ export default function AdminDashboard() {
                       <p className="font-medium text-sm text-foreground">{p.name}</p>
                       <p className="text-xs text-muted-foreground">{p.service} • Assigned by {p.assignedBy}</p>
                     </div>
-                    <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">Queue #{p.queueNo}</Badge>
+                    <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">Assigned</Badge>
                   </div>
                 ))}
               </div>
