@@ -12,8 +12,8 @@ const todayAppointments = [
 ];
 
 const walkInPatients = [
-  { name: "Carlo Reyes", service: "Tooth Extraction", queueNo: 6, time: "10:45 AM" },
-  { name: "Ana Santos", service: "Check-up", queueNo: 7, time: "11:15 AM" },
+  { name: "Carlo Reyes", service: "Tooth Extraction", queueNo: 6, assignedBy: "Dr. Sarah Chen" },
+  { name: "Ana Santos", service: "Check-up", queueNo: 7, assignedBy: "Dr. Sarah Chen" },
 ];
 
 const statusColors: Record<string, string> = {
