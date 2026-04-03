@@ -12,8 +12,8 @@ const todayAppointments = [
 ];
 
 const walkInPatients = [
-  { name: "Carlo Reyes", service: "Tooth Extraction", queueNo: 6, time: "10:45 AM" },
-  { name: "Ana Santos", service: "Check-up", queueNo: 7, time: "11:15 AM" },
+  { name: "Carlo Reyes", service: "Tooth Extraction", queueNo: 6, assignedBy: "Dr. Sarah Chen" },
+  { name: "Ana Santos", service: "Check-up", queueNo: 7, assignedBy: "Dr. Sarah Chen" },
 ];
 
 const statusColors: Record<string, string> = {
@@ -73,9 +73,9 @@ export default function AdminDashboard() {
                   <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                     <div>
                       <p className="font-medium text-sm text-foreground">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">{p.service} • Arrived {p.time}</p>
+                      <p className="text-xs text-muted-foreground">{p.service} • Assigned by {p.assignedBy}</p>
                     </div>
-                    <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">Queue #{p.queueNo}</Badge>
+                    <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">Assigned</Badge>
                   </div>
                 ))}
               </div>
@@ -84,10 +84,10 @@ export default function AdminDashboard() {
 
           <Card className="shadow-elevated border-primary/20">
             <CardContent className="p-6 text-center">
-              <p className="text-muted-foreground text-sm uppercase tracking-wider">Now Serving</p>
-              <p className="text-6xl font-bold font-heading text-primary my-3">03</p>
-              <p className="text-foreground font-medium">Emma Davis</p>
-              <p className="text-muted-foreground text-sm">Root Canal Treatment</p>
+              <p className="text-muted-foreground text-sm uppercase tracking-wider">Next Open Slot</p>
+              <p className="text-6xl font-bold font-heading text-primary my-3">04</p>
+              <p className="text-foreground font-medium">Robert Brown</p>
+              <p className="text-muted-foreground text-sm">Check-up</p>
             </CardContent>
           </Card>
         </div>
