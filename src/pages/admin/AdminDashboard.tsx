@@ -73,7 +73,7 @@ export default function AdminDashboard() {
                   <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                     <div>
                       <p className="font-medium text-sm text-foreground">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">{p.service} • Arrived {p.time}</p>
+                      <p className="text-xs text-muted-foreground">{p.service} • Assigned by {p.assignedBy}</p>
                     </div>
                     <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">Queue #{p.queueNo}</Badge>
                   </div>
