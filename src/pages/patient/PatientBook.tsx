@@ -1,21 +1,44 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarPlus, CheckCircle } from "lucide-react";
+import { CalendarPlus, CheckCircle, CalendarIcon } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const services = ["Dental Cleaning", "Tooth Extraction", "Filling", "Root Canal", "Check-up", "Teeth Whitening", "Braces Consultation"];
+const services = [
+  "Orthodontics (Braces)",
+  "EXO (Bunot)",
+  "Restoration",
+  "Oral",
+  "Venners",
+  "Denture (Pustiso)",
+  "Implant",
+  "Surgery",
+  "TMJ",
+  "Root Canal",
+  "Teeth Whitening",
+  "Fixed Bridge",
+];
+
 const timeSlots = ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"];
+
+const dentists = ["Dr. Ayag", "Dr. Santos", "Dr. Reyes", "Dr. Cruz"];
+
+const preferredTimes = ["Morning (9AM-12PM)", "Afternoon (1PM-5PM)"];
 
 export default function PatientBook() {
   const [submitted, setSubmitted] = useState(false);
   const [service, setService] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<Date>();
   const [time, setTime] = useState("");
+  const [dentist, setDentist] = useState("");
+  const [preferredTime, setPreferredTime] = useState("");
 
   if (submitted) {
     return (
@@ -25,7 +48,7 @@ export default function PatientBook() {
             <CheckCircle className="w-10 h-10 text-success" />
           </div>
           <h2 className="text-2xl font-bold font-heading text-foreground">Appointment Booked!</h2>
-          <p className="text-muted-foreground mt-2">{service} on {date} at {time}</p>
+          <p className="text-muted-foreground mt-2">{service} on {date ? format(date, "PPP") : ""} at {time} with {dentist}</p>
           <Button className="mt-6 gradient-primary text-primary-foreground" onClick={() => setSubmitted(false)}>Book Another</Button>
         </motion.div>
       </div>
@@ -48,10 +71,39 @@ export default function PatientBook() {
               <SelectContent>{services.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
             </Select>
           </div>
-          <div>
-            <Label>Preferred Date</Label>
-            <Input type="date" value={date} onChange={e => setDate(e.target.value)} />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label>Preferred Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar mode="single" selected={date} onSelect={setDate} initialFocus className="p-3 pointer-events-auto" disabled={(d) => d < new Date()} />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div>
+              <Label>Preferred Time</Label>
+              <Select value={preferredTime} onValueChange={setPreferredTime}>
+                <SelectTrigger><SelectValue placeholder="Select preferred time" /></SelectTrigger>
+                <SelectContent>{preferredTimes.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
           </div>
+
+          <div>
+            <Label>Available Dentist</Label>
+            <Select value={dentist} onValueChange={setDentist}>
+              <SelectTrigger><SelectValue placeholder="Choose a dentist" /></SelectTrigger>
+              <SelectContent>{dentists.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent>
+            </Select>
+          </div>
+
           <div>
             <Label>Available Time Slot</Label>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2">
@@ -62,7 +114,8 @@ export default function PatientBook() {
               ))}
             </div>
           </div>
-          <Button className="w-full gradient-primary text-primary-foreground" disabled={!service || !date || !time}
+
+          <Button className="w-full gradient-primary text-primary-foreground" disabled={!service || !date || !time || !dentist}
             onClick={() => { setSubmitted(true); toast.success("Appointment booked!"); }}>
             <CalendarPlus className="w-4 h-4 mr-2" />Confirm Appointment
           </Button>
