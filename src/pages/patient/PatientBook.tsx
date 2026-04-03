@@ -32,6 +32,14 @@ const dentists = ["Dr. Ayag", "Dr. Santos", "Dr. Reyes", "Dr. Cruz"];
 
 const preferredTimes = ["Morning (9AM-12PM)", "Afternoon (1PM-5PM)"];
 
+// Mock dentist availability per time slot
+const dentistAvailability: Record<string, string[]> = {
+  "Dr. Ayag": ["9:00 AM", "9:30 AM", "10:00 AM", "1:00 PM", "1:30 PM", "2:00 PM"],
+  "Dr. Santos": ["10:00 AM", "10:30 AM", "11:00 AM", "2:00 PM", "2:30 PM", "3:00 PM"],
+  "Dr. Reyes": ["9:00 AM", "10:30 AM", "11:00 AM", "1:00 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
+  "Dr. Cruz": ["9:30 AM", "10:00 AM", "11:00 AM", "1:30 PM", "2:30 PM", "3:30 PM", "4:00 PM"],
+};
+
 export default function PatientBook() {
   const [submitted, setSubmitted] = useState(false);
   const [service, setService] = useState("");
