@@ -114,12 +114,26 @@ export default function PatientBook() {
 
           <div>
             <Label>Available Time Slot</Label>
+            {dentist && (
+              <p className="text-xs text-muted-foreground mt-1 mb-1">
+                <span className="inline-block w-2 h-2 rounded-full bg-primary mr-1 align-middle"></span> Available for {dentist}
+              </p>
+            )}
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2">
-              {timeSlots.map(slot => (
-                <Button key={slot} variant={time === slot ? "default" : "outline"} size="sm"
-                  className={time === slot ? "gradient-primary text-primary-foreground" : ""}
-                  onClick={() => setTime(slot)}>{slot}</Button>
-              ))}
+              {timeSlots.map(slot => {
+                const isAvailable = dentist ? dentistAvailability[dentist]?.includes(slot) : true;
+                const isSelected = time === slot;
+                return (
+                  <Button key={slot} variant={isSelected ? "default" : "outline"} size="sm"
+                    disabled={dentist ? !isAvailable : false}
+                    className={cn(
+                      isSelected ? "gradient-primary text-primary-foreground" : "",
+                      dentist && isAvailable && !isSelected ? "border-primary/50 bg-primary/5 text-primary hover:bg-primary/10" : "",
+                      dentist && !isAvailable ? "opacity-40" : ""
+                    )}
+                    onClick={() => setTime(slot)}>{slot}</Button>
+                );
+              })}
             </div>
           </div>
 
