@@ -64,7 +64,7 @@ export default function PatientBook() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 w-full">
       <div>
         <h1 className="text-2xl font-bold font-heading text-foreground">Book Appointment</h1>
         <p className="text-muted-foreground">Schedule your next dental visit</p>
