@@ -4,121 +4,205 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarDays, Plus, Search, Check, Edit, X } from "lucide-react";
+import { CalendarDays, Plus, UserPlus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 
-const mockAppointments = [
-  { id: "A001", patient: "Maria Garcia", service: "Dental Cleaning", date: "2024-03-15", time: "9:00 AM", status: "confirmed" },
-  { id: "A002", patient: "James Wilson", service: "Tooth Extraction", date: "2024-03-15", time: "10:30 AM", status: "confirmed" },
-  { id: "A003", patient: "Emma Davis", service: "Root Canal", date: "2024-03-15", time: "11:00 AM", status: "pending" },
-  { id: "A004", patient: "Robert Brown", service: "Check-up", date: "2024-03-16", time: "9:00 AM", status: "confirmed" },
-  { id: "A005", patient: "Lisa Anderson", service: "Filling", date: "2024-03-16", time: "2:30 PM", status: "pending" },
-  { id: "A006", patient: "John Smith", service: "Teeth Whitening", date: "2024-03-17", time: "10:00 AM", status: "pending" },
+const services = [
+  "Orthodontics (Braces)", "EXO (Bunot)", "Restoration", "Oral", "Venners",
+  "Denture (Pustiso)", "Implant", "Surgery", "TMJ", "Root Canal",
+  "Teeth Whitening", "Fixed Bridge",
 ];
 
-const statusColors: Record<string, string> = {
-  confirmed: "bg-success/10 text-success border-success/20",
-  pending: "bg-warning/10 text-warning border-warning/20",
-  cancelled: "bg-destructive/10 text-destructive border-destructive/20",
-  completed: "bg-secondary text-secondary-foreground",
+const timeSlots = ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"];
+
+const dentists = ["Dr. Ayag", "Dr. Santos", "Dr. Reyes", "Dr. Cruz"];
+
+const preferredTimes = ["Morning (9AM-12PM)", "Afternoon (1PM-5PM)"];
+
+const dentistAvailability: Record<string, string[]> = {
+  "Dr. Ayag": ["9:00 AM", "9:30 AM", "10:00 AM", "1:00 PM", "1:30 PM", "2:00 PM"],
+  "Dr. Santos": ["10:00 AM", "10:30 AM", "11:00 AM", "2:00 PM", "2:30 PM", "3:00 PM"],
+  "Dr. Reyes": ["9:00 AM", "10:30 AM", "11:00 AM", "1:00 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
+  "Dr. Cruz": ["9:30 AM", "10:00 AM", "11:00 AM", "1:30 PM", "2:30 PM", "3:30 PM", "4:00 PM"],
 };
 
+interface WalkInEntry {
+  id: string;
+  patient: string;
+  service: string;
+  date: string;
+  preferredTime: string;
+  dentist: string;
+  time: string;
+}
+
+const initialWalkIns: WalkInEntry[] = [
+  { id: "W001", patient: "Carlo Reyes", service: "Tooth Extraction", date: "2024-03-15", preferredTime: "Morning", dentist: "Dr. Ayag", time: "9:00 AM" },
+  { id: "W002", patient: "Ana Santos", service: "Check-up", date: "2024-03-15", preferredTime: "Afternoon", dentist: "Dr. Santos", time: "2:00 PM" },
+];
+
 export default function AdminAppointments() {
-  const [search, setSearch] = useState("");
-  const [showAdd, setShowAdd] = useState(false);
-  const filtered = mockAppointments.filter(a => a.patient.toLowerCase().includes(search.toLowerCase()));
+  const [patientName, setPatientName] = useState("");
+  const [service, setService] = useState("");
+  const [date, setDate] = useState<Date>();
+  const [preferredTime, setPreferredTime] = useState("");
+  const [dentist, setDentist] = useState("");
+  const [time, setTime] = useState("");
+  const [walkIns, setWalkIns] = useState<WalkInEntry[]>(initialWalkIns);
+
+  const handleAdd = () => {
+    if (!patientName || !service || !date || !dentist || !time) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    const entry: WalkInEntry = {
+      id: `W${String(walkIns.length + 1).padStart(3, "0")}`,
+      patient: patientName,
+      service,
+      date: format(date, "yyyy-MM-dd"),
+      preferredTime,
+      dentist,
+      time,
+    };
+    setWalkIns(prev => [...prev, entry]);
+    setPatientName(""); setService(""); setDate(undefined); setPreferredTime(""); setDentist(""); setTime("");
+    toast.success("Walk-in appointment added!");
+  };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold font-heading text-foreground">Appointments</h1>
-          <p className="text-muted-foreground">Approve, reschedule, and manage appointments</p>
-        </div>
-        <Dialog open={showAdd} onOpenChange={setShowAdd}>
-          <DialogTrigger asChild>
-            <Button className="gradient-primary text-primary-foreground"><Plus className="w-4 h-4 mr-2" />New Appointment</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader><DialogTitle className="font-heading">Create Appointment</DialogTitle></DialogHeader>
-            <div className="space-y-4">
-              <div><Label>Patient</Label><Select><SelectTrigger><SelectValue placeholder="Select patient" /></SelectTrigger><SelectContent><SelectItem value="p1">Maria Garcia</SelectItem><SelectItem value="p2">James Wilson</SelectItem><SelectItem value="p3">Emma Davis</SelectItem></SelectContent></Select></div>
-              <div><Label>Service</Label><Select><SelectTrigger><SelectValue placeholder="Select service" /></SelectTrigger><SelectContent><SelectItem value="cleaning">Dental Cleaning</SelectItem><SelectItem value="extraction">Tooth Extraction</SelectItem><SelectItem value="filling">Filling</SelectItem><SelectItem value="rootcanal">Root Canal</SelectItem><SelectItem value="checkup">Check-up</SelectItem></SelectContent></Select></div>
-              <div className="grid grid-cols-2 gap-3">
-                <div><Label>Date</Label><Input type="date" /></div>
-                <div><Label>Time</Label><Input type="time" /></div>
-              </div>
-              <Button className="w-full gradient-primary text-primary-foreground" onClick={() => { toast.success("Appointment created"); setShowAdd(false); }}>Create Appointment</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+      <div>
+        <h1 className="text-2xl font-bold font-heading text-foreground">Walk-in Appointments</h1>
+        <p className="text-muted-foreground">Register and manage walk-in patients</p>
       </div>
 
-      {/* Calendar Schedule Overview */}
       <Card className="shadow-card">
         <CardHeader>
           <CardTitle className="font-heading text-lg flex items-center gap-2">
-            <CalendarDays className="w-5 h-5 text-primary" /> Schedule Overview
+            <Plus className="w-5 h-5 text-primary" /> New Walk-in Appointment
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 md:grid-cols-7 gap-2">
-            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => (
-              <div key={day} className={`p-3 rounded-lg text-center ${i === 2 ? "bg-primary/10 border border-primary/20" : "bg-muted/50"}`}>
-                <p className="text-xs text-muted-foreground">{day}</p>
-                <p className="font-bold text-foreground">{13 + i}</p>
-                <p className="text-xs text-primary font-medium">{i === 2 ? "5 appts" : i < 5 ? `${2 + i} appts` : "—"}</p>
-              </div>
-            ))}
+        <CardContent className="space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label>Patient Name</Label>
+              <Input placeholder="Enter patient name" value={patientName} onChange={e => setPatientName(e.target.value)} />
+            </div>
+            <div>
+              <Label>Service</Label>
+              <Select value={service} onValueChange={setService}>
+                <SelectTrigger><SelectValue placeholder="Select service" /></SelectTrigger>
+                <SelectContent>{services.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label>Preferred Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar mode="single" selected={date} onSelect={setDate} initialFocus className="p-3 pointer-events-auto" />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div>
+              <Label>Preferred Time</Label>
+              <Select value={preferredTime} onValueChange={setPreferredTime}>
+                <SelectTrigger><SelectValue placeholder="Select preferred time" /></SelectTrigger>
+                <SelectContent>{preferredTimes.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div>
+            <Label>Assign Dentist</Label>
+            <Select value={dentist} onValueChange={(val) => { setDentist(val); setTime(""); }}>
+              <SelectTrigger><SelectValue placeholder="Select dentist" /></SelectTrigger>
+              <SelectContent>{dentists.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label>Available Time Slots</Label>
+            {dentist && (
+              <p className="text-xs text-muted-foreground mt-1 mb-1">
+                <span className="inline-block w-2 h-2 rounded-full bg-primary mr-1 align-middle"></span> Available for {dentist}
+              </p>
+            )}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2">
+              {timeSlots.map(slot => {
+                const isAvailable = dentist ? dentistAvailability[dentist]?.includes(slot) : true;
+                const isSelected = time === slot;
+                return (
+                  <Button key={slot} variant={isSelected ? "default" : "outline"} size="sm"
+                    disabled={dentist ? !isAvailable : false}
+                    className={cn(
+                      isSelected ? "gradient-primary text-primary-foreground" : "",
+                      dentist && isAvailable && !isSelected ? "border-primary/50 bg-primary/5 text-primary hover:bg-primary/10" : "",
+                      dentist && !isAvailable ? "opacity-40" : ""
+                    )}
+                    onClick={() => setTime(slot)}>{slot}</Button>
+                );
+              })}
+            </div>
+          </div>
+
+          <Button className="w-full gradient-primary text-primary-foreground" disabled={!patientName || !service || !date || !dentist || !time} onClick={handleAdd}>
+            <UserPlus className="w-4 h-4 mr-2" /> Add Walk-in Appointment
+          </Button>
         </CardContent>
       </Card>
 
       <Card className="shadow-card">
         <CardHeader>
-          <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="Search appointments..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
-          </div>
+          <CardTitle className="font-heading text-lg flex items-center gap-2">
+            <CalendarDays className="w-5 h-5 text-primary" /> Today's Walk-in Appointments
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
                 <TableHead>Patient</TableHead>
                 <TableHead>Service</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>Dentist</TableHead>
                 <TableHead>Time</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map(a => (
-                <TableRow key={a.id}>
-                  <TableCell className="font-mono text-sm">{a.id}</TableCell>
-                  <TableCell className="font-medium">{a.patient}</TableCell>
-                  <TableCell>{a.service}</TableCell>
-                  <TableCell>{a.date}</TableCell>
-                  <TableCell>{a.time}</TableCell>
-                  <TableCell><Badge variant="outline" className={statusColors[a.status]}>{a.status}</Badge></TableCell>
+              {walkIns.map(w => (
+                <TableRow key={w.id}>
+                  <TableCell className="font-medium">{w.patient}</TableCell>
+                  <TableCell>{w.service}</TableCell>
+                  <TableCell>{w.dentist}</TableCell>
+                  <TableCell>{w.time}</TableCell>
+                  <TableCell><Badge variant="outline" className="bg-success/10 text-success border-success/20">Assigned</Badge></TableCell>
                   <TableCell>
-                    <div className="flex gap-1">
-                      {a.status === "pending" && (
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-success" onClick={() => toast.success("Appointment approved")}>
-                          <Check className="w-4 h-4" />
-                        </Button>
-                      )}
-                      <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive"><X className="w-4 h-4" /></Button>
-                    </div>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => { setWalkIns(prev => prev.filter(x => x.id !== w.id)); toast.success("Removed"); }}>
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
+              {walkIns.length === 0 && (
+                <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">No walk-in appointments yet</TableCell></TableRow>
+              )}
             </TableBody>
           </Table>
         </CardContent>
