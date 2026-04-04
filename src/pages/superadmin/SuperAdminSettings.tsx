@@ -17,14 +17,18 @@ const clinicHours = [
 ];
 
 const services = [
-  { name: "Dental Cleaning", duration: "30 min", price: 1500 },
-  { name: "Tooth Extraction", duration: "45 min", price: 3000 },
-  { name: "Filling", duration: "30 min", price: 2500 },
+  { name: "Orthodontics (Braces)", duration: "60 min", price: 25000 },
+  { name: "EXO (Bunot)", duration: "45 min", price: 3000 },
+  { name: "Restoration", duration: "30 min", price: 2500 },
+  { name: "Oral", duration: "30 min", price: 1500 },
+  { name: "Venners", duration: "60 min", price: 15000 },
+  { name: "Denture (Pustiso)", duration: "60 min", price: 12000 },
+  { name: "Implant", duration: "90 min", price: 35000 },
+  { name: "Surgery", duration: "90 min", price: 20000 },
+  { name: "TMJ", duration: "45 min", price: 5000 },
   { name: "Root Canal", duration: "90 min", price: 8000 },
-  { name: "Check-up", duration: "20 min", price: 500 },
   { name: "Teeth Whitening", duration: "60 min", price: 5000 },
-  { name: "Braces Consultation", duration: "30 min", price: 1000 },
-  { name: "Dental X-Ray", duration: "15 min", price: 800 },
+  { name: "Fixed Bridge", duration: "60 min", price: 18000 },
 ];
 
 export default function SuperAdminSettings() {
