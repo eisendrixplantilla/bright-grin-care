@@ -17,7 +17,7 @@ const adminNav = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Patient Records", url: "/admin/patients", icon: FolderOpen },
   { title: "Patient Accounts", url: "/admin/accounts", icon: Users },
-  { title: "Appointments", url: "/admin/appointments", icon: CalendarDays },
+  { title: "Walk-in Appointments", url: "/admin/appointments", icon: CalendarDays },
   { title: "Queue", url: "/admin/queue", icon: ListOrdered },
   { title: "Sales", url: "/admin/sales", icon: DollarSign },
   { title: "Inventory", url: "/admin/inventory", icon: Package },
