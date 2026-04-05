@@ -20,6 +20,7 @@ import AdminSales from "./pages/admin/AdminSales";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminTreatment from "./pages/admin/AdminTreatment";
 import AdminAccounts from "./pages/admin/AdminAccounts";
+import AdminOnlineAppointments from "./pages/admin/AdminOnlineAppointments";
 
 import PatientDashboard from "./pages/patient/PatientDashboard";
 import PatientBook from "./pages/patient/PatientBook";
