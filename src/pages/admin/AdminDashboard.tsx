@@ -16,6 +16,13 @@ const walkInPatients = [
   { name: "Ana Santos", service: "Check-up", queueNo: 7, assignedBy: "Dr. Sarah Chen" },
 ];
 
+const onlineAppointments = [
+  { id: 1, patient: "Juan Dela Cruz", service: "Teeth Whitening", date: "2024-03-20", time: "10:00 AM", status: "pending" },
+  { id: 2, patient: "Maria Santos", service: "Root Canal", date: "2024-03-21", time: "2:00 PM", status: "pending" },
+  { id: 3, patient: "Pedro Reyes", service: "Orthodontics (Braces)", date: "2024-03-22", time: "9:00 AM", status: "confirmed" },
+  { id: 4, patient: "Ana Garcia", service: "EXO (Bunot)", date: "2024-03-19", time: "3:30 PM", status: "declined" },
+];
+
 const statusColors: Record<string, string> = {
   completed: "bg-success/10 text-success border-success/20",
   "in-progress": "bg-accent/10 text-accent border-accent/20",
