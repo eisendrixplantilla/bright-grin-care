@@ -1,7 +1,7 @@
 import StatCard from "@/components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, CalendarDays, ListOrdered, DollarSign, Clock, UserPlus } from "lucide-react";
+import { Users, CalendarDays, DollarSign, Clock, UserPlus } from "lucide-react";
 
 const todayAppointments = [
   { id: 1, patient: "Maria Garcia", service: "Tooth Extraction", time: "9:00 AM", status: "completed" },
