@@ -34,8 +34,8 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Today's Appointments" value={14} icon={CalendarDays} trend="3 remaining" trendUp delay={0} />
         <StatCard title="Walk-in Patients" value={2} icon={UserPlus} trend="Today" delay={0.1} />
-        
-        <StatCard title="Daily Earnings" value="₱24,500" icon={DollarSign} trend="+18% vs yesterday" trendUp delay={0.3} />
+        <StatCard title="Daily Earnings" value="₱24,500" icon={DollarSign} trend="+18% vs yesterday" trendUp delay={0.2} />
+        <StatCard title="Next Open Slot" value="04" icon={Clock} trend="Robert Brown • Check-up" delay={0.3} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
