@@ -1,7 +1,7 @@
 import StatCard from "@/components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, CalendarDays, DollarSign, Clock, UserPlus } from "lucide-react";
+import { Users, CalendarDays, CalendarPlus, DollarSign, Clock, UserPlus } from "lucide-react";
 
 const todayAppointments = [
   { id: 1, patient: "Maria Garcia", service: "Tooth Extraction", time: "9:00 AM", status: "completed" },
@@ -16,11 +16,21 @@ const walkInPatients = [
   { name: "Ana Santos", service: "Check-up", queueNo: 7, assignedBy: "Dr. Sarah Chen" },
 ];
 
+const onlineAppointments = [
+  { id: 1, patient: "Juan Dela Cruz", service: "Teeth Whitening", date: "2024-03-20", time: "10:00 AM", status: "pending" },
+  { id: 2, patient: "Maria Santos", service: "Root Canal", date: "2024-03-21", time: "2:00 PM", status: "pending" },
+  { id: 3, patient: "Pedro Reyes", service: "Orthodontics (Braces)", date: "2024-03-22", time: "9:00 AM", status: "confirmed" },
+  { id: 4, patient: "Ana Garcia", service: "EXO (Bunot)", date: "2024-03-19", time: "3:30 PM", status: "declined" },
+];
+
 const statusColors: Record<string, string> = {
   completed: "bg-success/10 text-success border-success/20",
+  confirmed: "bg-success/10 text-success border-success/20",
   "in-progress": "bg-accent/10 text-accent border-accent/20",
   waiting: "bg-warning/10 text-warning border-warning/20",
+  pending: "bg-warning/10 text-warning border-warning/20",
   scheduled: "bg-secondary text-secondary-foreground",
+  declined: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
 export default function AdminDashboard() {
@@ -84,6 +94,27 @@ export default function AdminDashboard() {
 
         </div>
       </div>
+
+      <Card className="shadow-card">
+        <CardHeader>
+          <CardTitle className="font-heading text-lg flex items-center gap-2">
+            <CalendarPlus className="w-5 h-5 text-primary" /> Online Appointments
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {onlineAppointments.map(apt => (
+              <div key={apt.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div>
+                  <p className="font-medium text-sm text-foreground">{apt.patient}</p>
+                  <p className="text-xs text-muted-foreground">{apt.service} • {apt.date} at {apt.time}</p>
+                </div>
+                <Badge variant="outline" className={statusColors[apt.status] || "bg-warning/10 text-warning border-warning/20"}>{apt.status}</Badge>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
