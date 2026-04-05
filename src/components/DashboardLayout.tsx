@@ -9,7 +9,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import {
   Users, CalendarDays, ListOrdered, Package, DollarSign, FileText, LogOut,
-  CalendarPlus, History, LayoutDashboard, ClipboardList, FolderOpen,
+  CalendarPlus, History, LayoutDashboard, ClipboardList, FolderOpen, CalendarCheck,
   UserCog, Settings, BarChart3, Shield
 } from "lucide-react";
 
