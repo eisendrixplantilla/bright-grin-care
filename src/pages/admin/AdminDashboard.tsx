@@ -25,9 +25,12 @@ const onlineAppointments = [
 
 const statusColors: Record<string, string> = {
   completed: "bg-success/10 text-success border-success/20",
+  confirmed: "bg-success/10 text-success border-success/20",
   "in-progress": "bg-accent/10 text-accent border-accent/20",
   waiting: "bg-warning/10 text-warning border-warning/20",
+  pending: "bg-warning/10 text-warning border-warning/20",
   scheduled: "bg-secondary text-secondary-foreground",
+  declined: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
 export default function AdminDashboard() {
