@@ -91,6 +91,26 @@ export default function AdminDashboard() {
 
         </div>
       </div>
-    </div>
+
+      <Card className="shadow-card">
+        <CardHeader>
+          <CardTitle className="font-heading text-lg flex items-center gap-2">
+            <CalendarPlus className="w-5 h-5 text-primary" /> Online Appointments
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {onlineAppointments.map(apt => (
+              <div key={apt.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div>
+                  <p className="font-medium text-sm text-foreground">{apt.patient}</p>
+                  <p className="text-xs text-muted-foreground">{apt.service} • {apt.date} at {apt.time}</p>
+                </div>
+                <Badge variant="outline" className={statusColors[apt.status] || "bg-warning/10 text-warning border-warning/20"}>{apt.status}</Badge>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
   );
 }
