@@ -82,14 +82,6 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-elevated border-primary/20">
-            <CardContent className="p-6 text-center">
-              <p className="text-muted-foreground text-sm uppercase tracking-wider">Next Open Slot</p>
-              <p className="text-6xl font-bold font-heading text-primary my-3">04</p>
-              <p className="text-foreground font-medium">Robert Brown</p>
-              <p className="text-muted-foreground text-sm">Check-up</p>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
