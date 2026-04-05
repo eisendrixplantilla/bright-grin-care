@@ -9,7 +9,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import {
   Users, CalendarDays, ListOrdered, Package, DollarSign, FileText, LogOut,
-  CalendarPlus, History, LayoutDashboard, ClipboardList, FolderOpen,
+  CalendarPlus, History, LayoutDashboard, ClipboardList, FolderOpen, CalendarCheck,
   UserCog, Settings, BarChart3, Shield
 } from "lucide-react";
 
@@ -18,6 +18,7 @@ const adminNav = [
   { title: "Patient Records", url: "/admin/patients", icon: FolderOpen },
   { title: "Patient Accounts", url: "/admin/accounts", icon: Users },
   { title: "Walk-in Appointments", url: "/admin/appointments", icon: CalendarDays },
+  { title: "Online Appointments", url: "/admin/online-appointments", icon: CalendarPlus },
   { title: "Sales", url: "/admin/sales", icon: DollarSign },
   { title: "Inventory", url: "/admin/inventory", icon: Package },
   { title: "Reports", url: "/admin/reports", icon: FileText },
