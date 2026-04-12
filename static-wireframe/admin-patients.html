@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Records - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="admin-patients.html" class="active">📁 Patient Records</a></li>
+        <li><a href="admin-accounts.html">👥 Patient Accounts</a></li>
+        <li><a href="admin-appointments.html">📅 Walk-in Appointments</a></li>
+        <li><a href="admin-online-appointments.html">📋 Online Appointments</a></li>
+        <li><a href="admin-sales.html">💰 Sales</a></li>
+        <li><a href="admin-inventory.html">📦 Inventory</a></li>
+        <li><a href="admin-reports.html">📄 Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Dr. Sarah Chen</div><div class="role">Clinic Staff</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div class="flex justify-between items-center">
+          <div>
+            <h1>Patient Records</h1>
+            <p class="text-muted">Manage patient information and history</p>
+          </div>
+          <button class="btn btn-primary">+ Add Patient</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="input-icon" style="max-width:300px">
+              <span class="icon">🔍</span>
+              <input class="input" placeholder="Search patients...">
+            </div>
+          </div>
+          <div class="card-content table-wrap">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Age</th><th>Phone</th><th>Last Visit</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="font-mono">P001</td><td class="font-medium">Maria Garcia</td><td>32</td><td>09123456789</td><td>2024-03-10</td><td><span class="badge badge-success">active</span></td><td><button class="btn btn-ghost btn-icon">👁</button><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">P002</td><td class="font-medium">James Wilson</td><td>45</td><td>09234567890</td><td>2024-03-08</td><td><span class="badge badge-success">active</span></td><td><button class="btn btn-ghost btn-icon">👁</button><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">P003</td><td class="font-medium">Emma Davis</td><td>28</td><td>09345678901</td><td>2024-02-28</td><td><span class="badge badge-success">active</span></td><td><button class="btn btn-ghost btn-icon">👁</button><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">P004</td><td class="font-medium">Robert Brown</td><td>55</td><td>09456789012</td><td>2024-01-15</td><td><span class="badge badge-secondary">inactive</span></td><td><button class="btn btn-ghost btn-icon">👁</button><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">P005</td><td class="font-medium">Lisa Anderson</td><td>38</td><td>09567890123</td><td>2024-03-12</td><td><span class="badge badge-success">active</span></td><td><button class="btn btn-ghost btn-icon">👁</button><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="../public/clinic-logo.png" alt="Ayag Dental Clinic">
+        <span>Ayag Dental</span>
+      </div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html" class="active">📊 Dashboard</a></li>
+        <li><a href="admin-patients.html">📁 Patient Records</a></li>
+        <li><a href="admin-accounts.html">👥 Patient Accounts</a></li>
+        <li><a href="admin-appointments.html">📅 Walk-in Appointments</a></li>
+        <li><a href="admin-online-appointments.html">📋 Online Appointments</a></li>
+        <li><a href="admin-sales.html">💰 Sales</a></li>
+        <li><a href="admin-inventory.html">📦 Inventory</a></li>
+        <li><a href="admin-reports.html">📄 Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="label">Logged in as</div>
+          <div class="name">Dr. Sarah Chen</div>
+          <div class="role">Clinic Staff</div>
+        </div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-area">
+      <header class="topbar">
+        <span>☰</span>
+      </header>
+      <main class="content space-y">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="text-muted">Welcome back, Dr. Sarah Chen</p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Today's Appointments</div>
+            <div class="stat-value">14</div>
+            <div class="stat-trend up">3 remaining</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Walk-in Patients</div>
+            <div class="stat-value">2</div>
+            <div class="stat-trend">Today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Daily Earnings</div>
+            <div class="stat-value">₱24,500</div>
+            <div class="stat-trend up">+18% vs yesterday</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Next Open Slot</div>
+            <div class="stat-value">04</div>
+            <div class="stat-trend">Robert Brown • Check-up</div>
+          </div>
+        </div>
+
+        <div class="grid-2-col">
+          <!-- Today's Appointments -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">🕐 Today's Appointments</h3>
+            </div>
+            <div class="card-content space-y-xs">
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">Maria Garcia</div>
+                  <div class="item-meta">Tooth Extraction • 9:00 AM</div>
+                </div>
+                <span class="badge badge-success">completed</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">James Wilson</div>
+                  <div class="item-meta">Dental Cleaning • 10:30 AM</div>
+                </div>
+                <span class="badge badge-accent">in-progress</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">Emma Davis</div>
+                  <div class="item-meta">Root Canal • 11:00 AM</div>
+                </div>
+                <span class="badge badge-warning">waiting</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">Robert Brown</div>
+                  <div class="item-meta">Check-up • 1:00 PM</div>
+                </div>
+                <span class="badge badge-secondary">scheduled</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">Lisa Anderson</div>
+                  <div class="item-meta">Filling • 2:30 PM</div>
+                </div>
+                <span class="badge badge-secondary">scheduled</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Walk-in Patients -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">👤 Walk-in Patients Today</h3>
+            </div>
+            <div class="card-content space-y-xs">
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">Carlo Reyes</div>
+                  <div class="item-meta">Tooth Extraction • Assigned by Dr. Ayag</div>
+                </div>
+                <span class="badge badge-accent">Assigned</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info">
+                  <div class="item-name">Ana Santos</div>
+                  <div class="item-meta">Check-up • Assigned by Dr. Santos</div>
+                </div>
+                <span class="badge badge-accent">Assigned</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Online Appointments -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📋 Online Appointments</h3>
+          </div>
+          <div class="card-content space-y-xs">
+            <div class="list-item">
+              <div class="item-info">
+                <div class="item-name">Juan Dela Cruz</div>
+                <div class="item-meta">Teeth Whitening • 2024-03-20 at 10:00 AM</div>
+              </div>
+              <span class="badge badge-warning">pending</span>
+            </div>
+            <div class="list-item">
+              <div class="item-info">
+                <div class="item-name">Maria Santos</div>
+                <div class="item-meta">Root Canal • 2024-03-21 at 2:00 PM</div>
+              </div>
+              <span class="badge badge-warning">pending</span>
+            </div>
+            <div class="list-item">
+              <div class="item-info">
+                <div class="item-name">Pedro Reyes</div>
+                <div class="item-meta">Orthodontics (Braces) • 2024-03-22 at 9:00 AM</div>
+              </div>
+              <span class="badge badge-success">confirmed</span>
+            </div>
+            <div class="list-item">
+              <div class="item-info">
+                <div class="item-name">Ana Garcia</div>
+                <div class="item-meta">EXO (Bunot) • 2024-03-19 at 3:30 PM</div>
+              </div>
+              <span class="badge badge-destructive">declined</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

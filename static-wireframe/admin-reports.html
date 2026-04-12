@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="admin-patients.html">📁 Patient Records</a></li>
+        <li><a href="admin-accounts.html">👥 Patient Accounts</a></li>
+        <li><a href="admin-appointments.html">📅 Walk-in Appointments</a></li>
+        <li><a href="admin-online-appointments.html">📋 Online Appointments</a></li>
+        <li><a href="admin-sales.html">💰 Sales</a></li>
+        <li><a href="admin-inventory.html">📦 Inventory</a></li>
+        <li><a href="admin-reports.html" class="active">📄 Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Dr. Sarah Chen</div><div class="role">Clinic Staff</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div><h1>Reports</h1><p class="text-muted">Generate and export clinic reports</p></div>
+        <div class="grid-2">
+          <div class="card" style="cursor:pointer"><div class="card-content" style="padding:24px"><div class="flex gap-4"><div class="icon-box"><span class="text-primary" style="font-size:24px">👥</span></div><div><h3 class="font-semibold">Patient Records Report</h3><p class="text-sm text-muted mt-4">Complete list of all patients and their information</p><div class="flex gap-2 mt-4"><button class="btn btn-outline btn-sm">⬇ PDF</button><button class="btn btn-outline btn-sm">⬇ CSV</button></div></div></div></div></div>
+          <div class="card" style="cursor:pointer"><div class="card-content" style="padding:24px"><div class="flex gap-4"><div class="icon-box"><span class="text-accent" style="font-size:24px">📅</span></div><div><h3 class="font-semibold">Appointment History</h3><p class="text-sm text-muted mt-4">Detailed appointment logs with status tracking</p><div class="flex gap-2 mt-4"><button class="btn btn-outline btn-sm">⬇ PDF</button><button class="btn btn-outline btn-sm">⬇ CSV</button></div></div></div></div></div>
+          <div class="card" style="cursor:pointer"><div class="card-content" style="padding:24px"><div class="flex gap-4"><div class="icon-box"><span class="text-warning" style="font-size:24px">📦</span></div><div><h3 class="font-semibold">Inventory Usage Report</h3><p class="text-sm text-muted mt-4">Stock levels, usage trends, and reorder alerts</p><div class="flex gap-2 mt-4"><button class="btn btn-outline btn-sm">⬇ PDF</button><button class="btn btn-outline btn-sm">⬇ CSV</button></div></div></div></div></div>
+          <div class="card" style="cursor:pointer"><div class="card-content" style="padding:24px"><div class="flex gap-4"><div class="icon-box"><span class="text-success" style="font-size:24px">💰</span></div><div><h3 class="font-semibold">Sales & Revenue Report</h3><p class="text-sm text-muted mt-4">Financial transactions and revenue analysis</p><div class="flex gap-2 mt-4"><button class="btn btn-outline btn-sm">⬇ PDF</button><button class="btn btn-outline btn-sm">⬇ CSV</button></div></div></div></div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

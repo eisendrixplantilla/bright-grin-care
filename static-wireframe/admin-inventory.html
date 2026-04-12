@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="admin-patients.html">📁 Patient Records</a></li>
+        <li><a href="admin-accounts.html">👥 Patient Accounts</a></li>
+        <li><a href="admin-appointments.html">📅 Walk-in Appointments</a></li>
+        <li><a href="admin-online-appointments.html">📋 Online Appointments</a></li>
+        <li><a href="admin-sales.html">💰 Sales</a></li>
+        <li><a href="admin-inventory.html" class="active">📦 Inventory</a></li>
+        <li><a href="admin-reports.html">📄 Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Dr. Sarah Chen</div><div class="role">Clinic Staff</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div class="flex justify-between items-center">
+          <div><h1>Inventory</h1><p class="text-muted">Track dental supplies and equipment</p></div>
+          <button class="btn btn-primary">+ Add Item</button>
+        </div>
+        <div class="alert-warning">⚠️ <span><strong>3 items</strong> are running low on stock</span></div>
+        <div class="card">
+          <div class="card-header">
+            <div class="input-icon" style="max-width:300px"><span class="icon">🔍</span><input class="input" placeholder="Search inventory..."></div>
+          </div>
+          <div class="card-content table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Item</th><th>Category</th><th>Quantity</th><th>Min Stock</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td class="font-mono">I001</td><td class="font-medium">Dental Composite Resin</td><td>Filling</td><td>45 tubes</td><td>20 tubes</td><td><span class="badge badge-success">In Stock</span></td><td><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">I002</td><td class="font-medium">Anesthetic Cartridges</td><td>Anesthesia</td><td>8 boxes</td><td>15 boxes</td><td><span class="badge badge-destructive">Low Stock</span></td><td><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">I003</td><td class="font-medium">Latex Gloves (M)</td><td>PPE</td><td>120 pairs</td><td>50 pairs</td><td><span class="badge badge-success">In Stock</span></td><td><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">I004</td><td class="font-medium">Disposable Masks</td><td>PPE</td><td>12 boxes</td><td>30 boxes</td><td><span class="badge badge-destructive">Low Stock</span></td><td><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">I005</td><td class="font-medium">X-Ray Film</td><td>Imaging</td><td>200 sheets</td><td>50 sheets</td><td><span class="badge badge-success">In Stock</span></td><td><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+                <tr><td class="font-mono">I006</td><td class="font-medium">Orthodontic Wire</td><td>Ortho</td><td>3 rolls</td><td>10 rolls</td><td><span class="badge badge-destructive">Low Stock</span></td><td><button class="btn btn-ghost btn-icon">✏</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
