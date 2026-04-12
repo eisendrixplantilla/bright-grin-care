@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Management - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="superadmin-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="superadmin-staff.html" class="active">👤 Staff Management</a></li>
+        <li><a href="superadmin-settings.html">⚙ System Settings</a></li>
+        <li><a href="superadmin-reports.html">📈 Reports & Analytics</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Admin</div><div class="role">Super Admin</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div class="flex justify-between items-center">
+          <div><h1>Staff Management</h1><p class="text-muted">Add, remove, and manage staff accounts</p></div>
+          <button class="btn btn-primary">+ Add Staff Account</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="input-icon" style="max-width:300px"><span class="icon">🔍</span><input class="input" placeholder="Search staff..."></div>
+          </div>
+          <div class="card-content table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td class="font-mono">S001</td><td class="font-medium">Dr. Sarah Chen</td><td>sarah@ayagdental.com</td><td><span class="badge badge-secondary">Clinic Staff</span></td><td><span class="badge badge-success">active</span></td><td>2023-01-15</td><td><button class="btn btn-ghost btn-icon">✏</button><button class="btn btn-ghost btn-icon text-destructive">🗑</button></td></tr>
+                <tr><td class="font-mono">S002</td><td class="font-medium">Dr. Mike Johnson</td><td>mike@ayagdental.com</td><td><span class="badge badge-secondary">Clinic Staff</span></td><td><span class="badge badge-success">active</span></td><td>2023-03-20</td><td><button class="btn btn-ghost btn-icon">✏</button><button class="btn btn-ghost btn-icon text-destructive">🗑</button></td></tr>
+                <tr><td class="font-mono">S003</td><td class="font-medium">Nurse Amy Lee</td><td>amy@ayagdental.com</td><td><span class="badge badge-secondary">Clinic Staff</span></td><td><span class="badge badge-success">active</span></td><td>2023-06-10</td><td><button class="btn btn-ghost btn-icon">✏</button><button class="btn btn-ghost btn-icon text-destructive">🗑</button></td></tr>
+                <tr><td class="font-mono">S004</td><td class="font-medium">Receptionist Jen Cruz</td><td>jen@ayagdental.com</td><td><span class="badge badge-secondary">Clinic Staff</span></td><td><span class="badge badge-warning">on-leave</span></td><td>2023-09-01</td><td><button class="btn btn-ghost btn-icon">✏</button><button class="btn btn-ghost btn-icon text-destructive">🗑</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="patient-dashboard.html" class="active">📊 Dashboard</a></li>
+        <li><a href="patient-book.html">📋 Book Appointment</a></li>
+        <li><a href="patient-appointments.html">📅 My Appointments</a></li>
+        <li><a href="patient-records.html">📁 Dental Records</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">John Smith</div><div class="role">Patient</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div><h1>My Dashboard</h1><p class="text-muted">Welcome back, John Smith</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Upcoming Appointments</div><div class="stat-value">2</div></div>
+          <div class="stat-card"><div class="stat-label">Total Visits</div><div class="stat-value">12</div></div>
+          <div class="stat-card"><div class="stat-label">Next Appointment</div><div class="stat-value">Mar 20</div><div class="stat-trend">Dental Cleaning</div></div>
+        </div>
+        <div class="grid-2-col">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Upcoming Appointments</h3></div>
+            <div class="card-content space-y-xs">
+              <div class="list-item"><div class="item-info"><div class="item-name">Dental Cleaning</div><div class="item-meta">Mar 20, 2024 at 10:00 AM</div></div><span class="badge badge-success">confirmed</span></div>
+              <div class="list-item"><div class="item-info"><div class="item-name">Check-up</div><div class="item-meta">Apr 5, 2024 at 2:00 PM</div></div><span class="badge badge-warning">pending</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">🔔 Reminders</h3></div>
+            <div class="card-content space-y-xs">
+              <div class="flex gap-3 items-start" style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5)"><div class="dot"></div><p class="text-sm">Your dental cleaning appointment is tomorrow at 10:00 AM</p></div>
+              <div class="flex gap-3 items-start" style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5)"><div class="dot"></div><p class="text-sm">Time for your 6-month check-up. Book now!</p></div>
+              <div class="flex gap-3 items-start" style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5)"><div class="dot"></div><p class="text-sm">Don't forget to take your prescribed medication</p></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

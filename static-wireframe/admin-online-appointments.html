@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Appointments - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="admin-patients.html">📁 Patient Records</a></li>
+        <li><a href="admin-accounts.html">👥 Patient Accounts</a></li>
+        <li><a href="admin-appointments.html">📅 Walk-in Appointments</a></li>
+        <li><a href="admin-online-appointments.html" class="active">📋 Online Appointments</a></li>
+        <li><a href="admin-sales.html">💰 Sales</a></li>
+        <li><a href="admin-inventory.html">📦 Inventory</a></li>
+        <li><a href="admin-reports.html">📄 Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Dr. Sarah Chen</div><div class="role">Clinic Staff</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div>
+          <h1>Online Appointments</h1>
+          <p class="text-muted">Review and confirm patient online bookings</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">📅 Pending Appointments (2)</h3></div>
+          <div class="card-content table-wrap">
+            <table>
+              <thead><tr><th>Patient</th><th>Service</th><th>Date</th><th>Preferred Time</th><th>Dentist</th><th>Time Slot</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td class="font-medium">Juan Dela Cruz</td><td>Teeth Whitening</td><td>2024-03-20</td><td>Morning (9AM-12PM)</td><td>Dr. Ayag</td><td>10:00 AM</td>
+                  <td><div class="flex gap-2"><button class="btn btn-primary btn-sm">✓ Confirm</button><button class="btn btn-destructive-outline btn-sm">✗ Decline</button></div></td>
+                </tr>
+                <tr>
+                  <td class="font-medium">Maria Santos</td><td>Root Canal</td><td>2024-03-21</td><td>Afternoon (1PM-5PM)</td><td>Dr. Santos</td><td>2:00 PM</td>
+                  <td><div class="flex gap-2"><button class="btn btn-primary btn-sm">✓ Confirm</button><button class="btn btn-destructive-outline btn-sm">✗ Decline</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">📅 All Online Appointments</h3></div>
+          <div class="card-content table-wrap">
+            <table>
+              <thead><tr><th>Patient</th><th>Service</th><th>Date</th><th>Dentist</th><th>Time</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td class="font-medium">Juan Dela Cruz</td><td>Teeth Whitening</td><td>2024-03-20</td><td>Dr. Ayag</td><td>10:00 AM</td><td><span class="badge badge-warning">pending</span></td></tr>
+                <tr><td class="font-medium">Maria Santos</td><td>Root Canal</td><td>2024-03-21</td><td>Dr. Santos</td><td>2:00 PM</td><td><span class="badge badge-warning">pending</span></td></tr>
+                <tr><td class="font-medium">Pedro Reyes</td><td>Orthodontics (Braces)</td><td>2024-03-22</td><td>Dr. Reyes</td><td>9:00 AM</td><td><span class="badge badge-success">confirmed</span></td></tr>
+                <tr><td class="font-medium">Ana Garcia</td><td>EXO (Bunot)</td><td>2024-03-19</td><td>Dr. Cruz</td><td>3:30 PM</td><td><span class="badge badge-destructive">declined</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

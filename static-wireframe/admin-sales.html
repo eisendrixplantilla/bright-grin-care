@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="admin-patients.html">📁 Patient Records</a></li>
+        <li><a href="admin-accounts.html">👥 Patient Accounts</a></li>
+        <li><a href="admin-appointments.html">📅 Walk-in Appointments</a></li>
+        <li><a href="admin-online-appointments.html">📋 Online Appointments</a></li>
+        <li><a href="admin-sales.html" class="active">💰 Sales</a></li>
+        <li><a href="admin-inventory.html">📦 Inventory</a></li>
+        <li><a href="admin-reports.html">📄 Reports</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Dr. Sarah Chen</div><div class="role">Clinic Staff</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div class="flex justify-between items-center">
+          <div><h1>Sales & Bookkeeping</h1><p class="text-muted">Record payments, generate receipts, daily income</p></div>
+          <button class="btn btn-primary">+ Record Payment</button>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Today's Revenue</div><div class="stat-value">₱12,500</div><div class="stat-trend up">+18%</div></div>
+          <div class="stat-card"><div class="stat-label">Weekly Revenue</div><div class="stat-value">₱68,200</div><div class="stat-trend up">+12%</div></div>
+          <div class="stat-card"><div class="stat-label">Pending Payments</div><div class="stat-value">₱8,000</div></div>
+          <div class="stat-card"><div class="stat-label">Total Transactions</div><div class="stat-value">42</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Recent Transactions</h3></div>
+          <div class="card-content table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Patient</th><th>Service</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td class="font-mono">S001</td><td class="font-medium">Maria Garcia</td><td>Dental Cleaning</td><td class="font-semibold">₱1,500</td><td>2024-03-15</td><td><span class="badge badge-success">paid</span></td><td><button class="btn btn-ghost btn-icon">🖨</button></td></tr>
+                <tr><td class="font-mono">S002</td><td class="font-medium">James Wilson</td><td>Tooth Extraction</td><td class="font-semibold">₱3,000</td><td>2024-03-15</td><td><span class="badge badge-success">paid</span></td><td><button class="btn btn-ghost btn-icon">🖨</button></td></tr>
+                <tr><td class="font-mono">S003</td><td class="font-medium">Emma Davis</td><td>Root Canal</td><td class="font-semibold">₱8,000</td><td>2024-03-15</td><td><span class="badge badge-warning">pending</span></td><td><button class="btn btn-ghost btn-icon">🖨</button></td></tr>
+                <tr><td class="font-mono">S004</td><td class="font-medium">Robert Brown</td><td>Check-up</td><td class="font-semibold">₱500</td><td>2024-03-14</td><td><span class="badge badge-success">paid</span></td><td><button class="btn btn-ghost btn-icon">🖨</button></td></tr>
+                <tr><td class="font-mono">S005</td><td class="font-medium">Lisa Anderson</td><td>Filling</td><td class="font-semibold">₱2,500</td><td>2024-03-14</td><td><span class="badge badge-success">paid</span></td><td><button class="btn btn-ghost btn-icon">🖨</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Daily Income Report</h3></div>
+          <div class="card-content">
+            <div class="grid-4">
+              <div style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5); text-align:center"><p class="text-xs text-muted">Dental Cleaning</p><p class="font-bold">₱4,500</p><p class="text-xs text-muted">3 patients</p></div>
+              <div style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5); text-align:center"><p class="text-xs text-muted">Tooth Extraction</p><p class="font-bold">₱6,000</p><p class="text-xs text-muted">2 patients</p></div>
+              <div style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5); text-align:center"><p class="text-xs text-muted">Root Canal</p><p class="font-bold">₱8,000</p><p class="text-xs text-muted">1 patients</p></div>
+              <div style="padding:12px; border-radius:8px; background:hsl(200 20% 95%/0.5); text-align:center"><p class="text-xs text-muted">Check-up</p><p class="font-bold">₱2,000</p><p class="text-xs text-muted">4 patients</p></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
