@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Dashboard - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="superadmin-dashboard.html" class="active">📊 Dashboard</a></li>
+        <li><a href="superadmin-staff.html">👤 Staff Management</a></li>
+        <li><a href="superadmin-settings.html">⚙ System Settings</a></li>
+        <li><a href="superadmin-reports.html">📈 Reports & Analytics</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">Admin</div><div class="role">Super Admin</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div><h1>Super Admin Dashboard</h1><p class="text-muted">System overview and analytics</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Total Patients</div><div class="stat-value">248</div><div class="stat-trend up">+12 this month</div></div>
+          <div class="stat-card"><div class="stat-label">Today's Appointments</div><div class="stat-value">14</div><div class="stat-trend up">+5 vs yesterday</div></div>
+          <div class="stat-card"><div class="stat-label">Monthly Revenue</div><div class="stat-value">₱285,000</div><div class="stat-trend up">+15% vs last month</div></div>
+          <div class="stat-card"><div class="stat-label">Active Staff</div><div class="stat-value">3</div><div class="stat-trend">1 on leave</div></div>
+        </div>
+        <div class="grid-2-col">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">👤 Staff Overview</h3></div>
+            <div class="card-content space-y-xs">
+              <div class="list-item"><div class="item-info"><div class="item-name">Dr. Sarah Chen</div><div class="item-meta">Dentist • 5 patients today</div></div><span class="badge badge-success">active</span></div>
+              <div class="list-item"><div class="item-info"><div class="item-name">Dr. Mike Johnson</div><div class="item-meta">Dentist • 3 patients today</div></div><span class="badge badge-success">active</span></div>
+              <div class="list-item"><div class="item-info"><div class="item-name">Nurse Amy Lee</div><div class="item-meta">Staff • 0 patients today</div></div><span class="badge badge-success">active</span></div>
+              <div class="list-item"><div class="item-info"><div class="item-name">Receptionist Jen</div><div class="item-meta">Staff • 0 patients today</div></div><span class="badge badge-warning">on-leave</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">📈 Performance Overview</h3></div>
+            <div class="card-content space-y-sm">
+              <div><div class="flex justify-between mb-4"><span class="text-sm">Patient Satisfaction</span><span class="text-sm font-semibold">94%</span></div><div class="progress-bar"><div class="progress-fill" style="width:94%"></div></div></div>
+              <div><div class="flex justify-between mb-4"><span class="text-sm">Appointment Completion</span><span class="text-sm font-semibold">88%</span></div><div class="progress-bar"><div class="progress-fill" style="width:88%"></div></div></div>
+              <div><div class="flex justify-between mb-4"><span class="text-sm">Average Wait Time</span><span class="text-sm font-semibold">12 min</span></div><div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div></div>
+              <div><div class="flex justify-between mb-4"><span class="text-sm">Revenue Target</span><span class="text-sm font-semibold">78%</span></div><div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

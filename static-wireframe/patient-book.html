@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - Ayag Dental Clinic</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><img src="../public/clinic-logo.png" alt=""><span>Ayag Dental</span></div>
+      <div class="sidebar-label">Menu</div>
+      <ul class="sidebar-menu">
+        <li><a href="patient-dashboard.html">📊 Dashboard</a></li>
+        <li><a href="patient-book.html" class="active">📋 Book Appointment</a></li>
+        <li><a href="patient-appointments.html">📅 My Appointments</a></li>
+        <li><a href="patient-records.html">📁 Dental Records</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="label">Logged in as</div><div class="name">John Smith</div><div class="role">Patient</div></div>
+        <button class="btn-signout">🚪 Sign Out</button>
+      </div>
+    </aside>
+    <div class="main-area">
+      <header class="topbar"><span>☰</span></header>
+      <main class="content space-y">
+        <div><h1>Book Appointment</h1><p class="text-muted">Schedule your next dental visit</p></div>
+        <div class="card">
+          <div class="card-content space-y-sm">
+            <div><label class="label">Select Service</label><select class="select"><option>Choose a service</option><option>Orthodontics (Braces)</option><option>EXO (Bunot)</option><option>Restoration</option><option>Root Canal</option><option>Teeth Whitening</option><option>Fixed Bridge</option></select></div>
+            <div class="grid-2">
+              <div><label class="label">Preferred Date</label><input class="input" type="date"></div>
+              <div><label class="label">Preferred Time</label><select class="select"><option>Select preferred time</option><option>Morning (9AM-12PM)</option><option>Afternoon (1PM-5PM)</option></select></div>
+            </div>
+            <div><label class="label">Available Dentist</label><select class="select"><option>Choose a dentist</option><option>Dr. Ayag</option><option>Dr. Santos</option><option>Dr. Reyes</option><option>Dr. Cruz</option></select></div>
+            <div>
+              <label class="label">Available Time Slot</label>
+              <div class="time-slot-grid">
+                <div class="time-slot available">9:00 AM</div>
+                <div class="time-slot available">9:30 AM</div>
+                <div class="time-slot selected">10:00 AM</div>
+                <div class="time-slot disabled">10:30 AM</div>
+                <div class="time-slot disabled">11:00 AM</div>
+                <div class="time-slot available">1:00 PM</div>
+                <div class="time-slot available">1:30 PM</div>
+                <div class="time-slot available">2:00 PM</div>
+                <div class="time-slot disabled">2:30 PM</div>
+                <div class="time-slot disabled">3:00 PM</div>
+                <div class="time-slot disabled">3:30 PM</div>
+                <div class="time-slot disabled">4:00 PM</div>
+              </div>
+            </div>
+            <button class="btn btn-primary w-full">📅 Confirm Appointment</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
