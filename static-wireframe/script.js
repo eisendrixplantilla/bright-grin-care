@@ -103,7 +103,8 @@ document.querySelectorAll('.btn-primary').forEach(btn => {
       const name = btn.closest('form')?.querySelector('input[placeholder="John Smith"]')?.value;
       const email = btn.closest('form')?.querySelector('input[type="email"]')?.value;
       if (!name || !email) { showToast('Please fill in all fields', 'warning'); return; }
-      showToast('Account created! Please check your email for verification.', 'success');
+      showToast('Account created! Redirecting to verification...', 'success');
+      setTimeout(() => { window.location.href = 'verify.html'; }, 1500);
     });
   }
 
