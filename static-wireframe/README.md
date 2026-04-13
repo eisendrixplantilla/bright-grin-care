@@ -8,6 +8,7 @@ Pure HTML/CSS static wireframe version of the Ayag Dental Clinic Management Syst
 - `login.html` - Login page
 - `register.html` - Registration page
 - `forgot-password.html` - Forgot password page
+- `verify.html` - Email verification (OTP) page
 
 ### Admin (Clinic Staff)
 - `admin-dashboard.html` - Admin dashboard
