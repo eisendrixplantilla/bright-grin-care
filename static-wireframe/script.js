@@ -206,84 +206,76 @@ document.querySelectorAll('.btn-primary.w-full').forEach(btn => {
   }
 });
 
-// --- Delete Buttons (🗑) ---
-document.querySelectorAll('.btn-ghost.btn-icon').forEach(btn => {
-  if (btn.textContent.includes('🗑')) {
-    btn.addEventListener('click', () => {
-      const row = btn.closest('tr') || btn.closest('.list-item');
-      const name = row?.querySelector('.font-medium, .item-name')?.textContent?.trim() || 'this item';
-      showConfirm('Delete Confirmation', `Are you sure you want to delete <strong>${name}</strong>?<br><br>This action cannot be undone.`, () => {
-        if (row) { row.style.transition = 'opacity 0.3s'; row.style.opacity = '0'; setTimeout(() => row.remove(), 300); }
-        showToast(`${name} has been deleted`, 'success');
-      });
+// --- Delete Buttons ---
+document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const row = btn.closest('tr') || btn.closest('.list-item');
+    const name = row?.querySelector('.font-medium, .item-name')?.textContent?.trim() || 'this item';
+    showConfirm('Delete Confirmation', `Are you sure you want to delete <strong>${name}</strong>?<br><br>This action cannot be undone.`, () => {
+      if (row) { row.style.transition = 'opacity 0.3s'; row.style.opacity = '0'; setTimeout(() => row.remove(), 300); }
+      showToast(`${name} has been deleted`, 'success');
     });
-  }
+  });
 });
 
-// --- Edit Buttons (✏) ---
-document.querySelectorAll('.btn-ghost.btn-icon').forEach(btn => {
-  if (btn.textContent.includes('✏')) {
-    btn.addEventListener('click', () => {
-      const row = btn.closest('tr') || btn.closest('.list-item');
-      const name = row?.querySelector('.font-medium, .item-name')?.textContent?.trim() || 'Record';
-      showModal('Edit ' + name,
-        `<div class="space-y-sm">
-          <div><label class="label">Name</label><input class="input" value="${name}"></div>
-          <div><label class="label">Notes</label><textarea class="input" rows="3" placeholder="Add notes..."></textarea></div>
-        </div>`,
-        `<button class="btn btn-outline" onclick="closeModal(this)">Cancel</button>
-         <button class="btn btn-primary" onclick="showToast('${name} updated successfully', 'success'); closeModal(this);">Save Changes</button>`
-      );
-    });
-  }
+// --- Edit Buttons ---
+document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const row = btn.closest('tr') || btn.closest('.list-item');
+    const name = row?.querySelector('.font-medium, .item-name')?.textContent?.trim() || 'Record';
+    showModal('Edit ' + name,
+      `<div class="space-y-sm">
+        <div><label class="label">Name</label><input class="input" value="${name}"></div>
+        <div><label class="label">Notes</label><textarea class="input" rows="3" placeholder="Add notes..."></textarea></div>
+      </div>`,
+      `<button class="btn btn-outline" onclick="closeModal(this)">Cancel</button>
+       <button class="btn btn-primary" onclick="showToast('${name} updated successfully', 'success'); closeModal(this);">Save Changes</button>`
+    );
+  });
 });
 
-// --- View Buttons (👁) ---
-document.querySelectorAll('.btn-ghost.btn-icon').forEach(btn => {
-  if (btn.textContent.includes('👁')) {
-    btn.addEventListener('click', () => {
-      const row = btn.closest('tr');
-      const cells = row?.querySelectorAll('td');
-      if (!cells) return;
-      const name = row?.querySelector('.font-medium')?.textContent?.trim() || 'Patient';
-      let details = '';
-      cells.forEach((cell, i) => {
-        const th = row.closest('table')?.querySelectorAll('th')[i];
-        if (th && !cell.querySelector('button')) {
-          details += `<div class="flex justify-between" style="padding:8px 0; border-bottom:1px solid var(--border)"><span class="text-muted">${th.textContent}</span><span class="font-medium">${cell.innerHTML}</span></div>`;
-        }
-      });
-      showModal('📋 ' + name + ' Details', details, `<button class="btn btn-primary" onclick="closeModal(this)">Close</button>`);
+// --- View Buttons ---
+document.querySelectorAll('[data-action="view"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const row = btn.closest('tr');
+    const cells = row?.querySelectorAll('td');
+    if (!cells) return;
+    const name = row?.querySelector('.font-medium')?.textContent?.trim() || 'Patient';
+    let details = '';
+    cells.forEach((cell, i) => {
+      const th = row.closest('table')?.querySelectorAll('th')[i];
+      if (th && !cell.querySelector('button')) {
+        details += `<div class="flex justify-between" style="padding:8px 0; border-bottom:1px solid var(--border)"><span class="text-muted">${th.textContent}</span><span class="font-medium">${cell.innerHTML}</span></div>`;
+      }
     });
-  }
+    showModal(name + ' Details', details, `<button class="btn btn-primary" onclick="closeModal(this)">Close</button>`);
+  });
 });
 
-// --- Print Receipt (🖨) ---
-document.querySelectorAll('.btn-ghost.btn-icon').forEach(btn => {
-  if (btn.textContent.includes('🖨')) {
-    btn.addEventListener('click', () => {
-      const row = btn.closest('tr');
-      const id = row?.querySelector('.font-mono')?.textContent?.trim();
-      const patient = row?.querySelector('.font-medium')?.textContent?.trim();
-      const service = row?.querySelectorAll('td')[2]?.textContent?.trim();
-      const amount = row?.querySelector('.font-semibold')?.textContent?.trim();
-      showModal('🧾 Receipt', `
-        <div style="border:2px dashed var(--border); border-radius:12px; padding:24px; text-align:center;">
-          <h2 style="font-size:20px; margin-bottom:4px;">Ayag Dental Clinic</h2>
-          <p class="text-sm text-muted">123 Health St, Manila</p>
-          <hr style="margin:16px 0; border-color:var(--border)">
-          <div class="flex justify-between" style="padding:4px 0"><span class="text-muted">Receipt #</span><span class="font-medium">${id}</span></div>
-          <div class="flex justify-between" style="padding:4px 0"><span class="text-muted">Patient</span><span class="font-medium">${patient}</span></div>
-          <div class="flex justify-between" style="padding:4px 0"><span class="text-muted">Service</span><span class="font-medium">${service}</span></div>
-          <hr style="margin:16px 0; border-color:var(--border)">
-          <div class="flex justify-between" style="padding:4px 0"><span class="font-semibold">Total</span><span class="font-bold" style="font-size:20px; color:var(--primary)">${amount}</span></div>
-          <p class="text-xs text-muted" style="margin-top:16px">Thank you for choosing Ayag Dental Clinic!</p>
-        </div>`,
-        `<button class="btn btn-outline" onclick="closeModal(this)">Close</button>
-         <button class="btn btn-primary" onclick="showToast('Receipt sent to printer', 'success'); closeModal(this);">🖨 Print</button>`
-      );
-    });
-  }
+// --- Print Receipt ---
+document.querySelectorAll('[data-action="print"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const row = btn.closest('tr');
+    const id = row?.querySelector('.font-mono')?.textContent?.trim();
+    const patient = row?.querySelector('.font-medium')?.textContent?.trim();
+    const service = row?.querySelectorAll('td')[2]?.textContent?.trim();
+    const amount = row?.querySelector('.font-semibold')?.textContent?.trim();
+    showModal('Receipt', `
+      <div style="border:2px dashed var(--border); border-radius:12px; padding:24px; text-align:center;">
+        <h2 style="font-size:20px; margin-bottom:4px;">Ayag Dental Clinic</h2>
+        <p class="text-sm text-muted">123 Health St, Manila</p>
+        <hr style="margin:16px 0; border-color:var(--border)">
+        <div class="flex justify-between" style="padding:4px 0"><span class="text-muted">Receipt #</span><span class="font-medium">${id}</span></div>
+        <div class="flex justify-between" style="padding:4px 0"><span class="text-muted">Patient</span><span class="font-medium">${patient}</span></div>
+        <div class="flex justify-between" style="padding:4px 0"><span class="text-muted">Service</span><span class="font-medium">${service}</span></div>
+        <hr style="margin:16px 0; border-color:var(--border)">
+        <div class="flex justify-between" style="padding:4px 0"><span class="font-semibold">Total</span><span class="font-bold" style="font-size:20px; color:var(--primary)">${amount}</span></div>
+        <p class="text-xs text-muted" style="margin-top:16px">Thank you for choosing Ayag Dental Clinic!</p>
+      </div>`,
+      `<button class="btn btn-outline" onclick="closeModal(this)">Close</button>
+       <button class="btn btn-primary" onclick="showToast('Receipt sent to printer', 'success'); closeModal(this);">Print</button>`
+    );
+  });
 });
 
 // --- Add Patient ---
@@ -372,18 +364,16 @@ document.querySelectorAll('.btn-outline.btn-sm').forEach(btn => {
   }
 });
 
-// --- Cancel Appointment (✗) ---
-document.querySelectorAll('.btn-ghost.btn-icon').forEach(btn => {
-  if (btn.textContent.trim() === '✗') {
-    btn.addEventListener('click', () => {
-      const row = btn.closest('.list-item') || btn.closest('tr');
-      const name = row?.querySelector('.item-name, .font-medium')?.textContent?.trim() || 'Appointment';
-      showConfirm('Cancel Appointment', `Are you sure you want to cancel <strong>${name}</strong>?<br><br>The patient will be notified.`, () => {
-        if (row) { row.style.transition = 'opacity 0.3s'; row.style.opacity = '0'; setTimeout(() => row.remove(), 300); }
-        showToast(`${name} appointment cancelled. Patient notified.`, 'warning');
-      });
+// --- Cancel Appointment ---
+document.querySelectorAll('[data-action="cancel"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const row = btn.closest('.list-item') || btn.closest('tr');
+    const name = row?.querySelector('.item-name, .font-medium')?.textContent?.trim() || 'Appointment';
+    showConfirm('Cancel Appointment', `Are you sure you want to cancel <strong>${name}</strong>?<br><br>The patient will be notified.`, () => {
+      if (row) { row.style.transition = 'opacity 0.3s'; row.style.opacity = '0'; setTimeout(() => row.remove(), 300); }
+      showToast(`${name} appointment cancelled. Patient notified.`, 'warning');
     });
-  }
+  });
 });
 
 // --- Search Filter ---
@@ -400,22 +390,20 @@ document.querySelectorAll('.input-icon .input[placeholder*="Search"]').forEach(i
 });
 
 // --- Hamburger Menu (mobile) ---
-document.querySelectorAll('.topbar span').forEach(el => {
-  if (el.textContent === '☰') {
-    el.style.cursor = 'pointer';
-    el.addEventListener('click', () => {
-      const sidebar = document.querySelector('.sidebar');
-      if (sidebar) {
-        const isVisible = sidebar.style.display !== 'none' && sidebar.style.display !== '';
-        if (window.innerWidth <= 768) {
-          sidebar.style.display = isVisible ? 'flex' : 'none';
-          sidebar.style.position = 'fixed';
-          sidebar.style.zIndex = '1000';
-          sidebar.style.top = '0';
-          sidebar.style.left = '0';
-          sidebar.style.height = '100vh';
-        }
+document.querySelectorAll('.topbar span, .topbar svg').forEach(el => {
+  el.style.cursor = 'pointer';
+  el.addEventListener('click', () => {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+      const isVisible = sidebar.style.display !== 'none' && sidebar.style.display !== '';
+      if (window.innerWidth <= 768) {
+        sidebar.style.display = isVisible ? 'flex' : 'none';
+        sidebar.style.position = 'fixed';
+        sidebar.style.zIndex = '1000';
+        sidebar.style.top = '0';
+        sidebar.style.left = '0';
+        sidebar.style.height = '100vh';
       }
-    });
-  }
+    }
+  });
 });
