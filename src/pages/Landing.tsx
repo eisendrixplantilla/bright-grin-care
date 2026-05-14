@@ -92,7 +92,9 @@ export default function Landing() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <img src="/clinic-logo.png" alt="Ayag Dental Clinic" className="w-full h-full object-contain drop-shadow-2xl" />
+            <div className="aspect-square rounded-3xl gradient-primary shadow-elevated flex items-center justify-center">
+              <img src="/clinic-logo.png" alt="Ayag Dental Clinic" className="w-2/3 h-2/3 object-contain drop-shadow-2xl" />
+            </div>
           </motion.div>
         </div>
       </section>
