@@ -27,10 +27,27 @@ const MOCK_USERS: (User & { password: string })[] = [
   { id: "3", email: "super@admin.com", name: "Super Administrator", role: "superadmin", verified: true, password: "super123" },
 ];
 
+const STORAGE_KEY = "ayag_auth_user";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUserState] = useState<User | null>(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? (JSON.parse(stored) as User) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [pendingUser, setPendingUser] = useState<User | null>(null);
+
+  const setUser = useCallback((u: User | null) => {
+    setUserState(u);
+    try {
+      if (u) localStorage.setItem(STORAGE_KEY, JSON.stringify(u));
+      else localStorage.removeItem(STORAGE_KEY);
+    } catch {}
+  }, []);
 
   const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true);
