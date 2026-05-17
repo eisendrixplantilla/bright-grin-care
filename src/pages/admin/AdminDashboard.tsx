@@ -37,9 +37,14 @@ const statusColors: Record<string, string> = {
 export default function AdminDashboard() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold font-heading text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back, Dr. Sarah Chen</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold font-heading text-foreground">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome back, Dr. Sarah Chen</p>
+        </div>
+        <Button onClick={() => window.print()} variant="outline" className="print:hidden">
+          <Printer className="w-4 h-4 mr-2" /> Print Graph
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
