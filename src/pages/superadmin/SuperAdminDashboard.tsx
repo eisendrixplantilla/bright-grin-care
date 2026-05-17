@@ -1,7 +1,8 @@
 import StatCard from "@/components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, CalendarDays, DollarSign, BarChart3, TrendingUp, UserCog } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Users, CalendarDays, DollarSign, BarChart3, TrendingUp, UserCog, Printer } from "lucide-react";
 
 const staffOverview = [
   { name: "Dr. Sarah Chen", role: "Dentist", status: "active", patientsToday: 5 },
