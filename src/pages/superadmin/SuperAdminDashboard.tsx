@@ -1,7 +1,8 @@
 import StatCard from "@/components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, CalendarDays, DollarSign, BarChart3, TrendingUp, UserCog } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Users, CalendarDays, DollarSign, BarChart3, TrendingUp, UserCog, Printer } from "lucide-react";
 
 const staffOverview = [
   { name: "Dr. Sarah Chen", role: "Dentist", status: "active", patientsToday: 5 },
@@ -13,9 +14,14 @@ const staffOverview = [
 export default function SuperAdminDashboard() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold font-heading text-foreground">Super Admin Dashboard</h1>
-        <p className="text-muted-foreground">System overview and analytics</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold font-heading text-foreground">Super Admin Dashboard</h1>
+          <p className="text-muted-foreground">System overview and analytics</p>
+        </div>
+        <Button onClick={() => window.print()} variant="outline" className="print:hidden">
+          <Printer className="w-4 h-4 mr-2" /> Print Graph
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
