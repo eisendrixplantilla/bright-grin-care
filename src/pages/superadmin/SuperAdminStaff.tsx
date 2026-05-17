@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,27 +7,22 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UserCog, Plus, Trash2, Edit, Search } from "lucide-react";
+import { Plus, Archive, Edit, Search } from "lucide-react";
 import { toast } from "sonner";
-
-const mockStaff = [
-  { id: "S001", name: "Dr. Sarah Chen", email: "sarah@ayagdental.com", role: "admin", status: "active", joined: "2023-01-15" },
-  { id: "S002", name: "Dr. Mike Johnson", email: "mike@ayagdental.com", role: "admin", status: "active", joined: "2023-03-20" },
-  { id: "S003", name: "Nurse Amy Lee", email: "amy@ayagdental.com", role: "admin", status: "active", joined: "2023-06-10" },
-  { id: "S004", name: "Receptionist Jen Cruz", email: "jen@ayagdental.com", role: "admin", status: "on-leave", joined: "2023-09-01" },
-];
+import { useActiveStaff, archiveStaff } from "@/lib/staffStore";
 
 export default function SuperAdminStaff() {
   const [showAdd, setShowAdd] = useState(false);
   const [search, setSearch] = useState("");
-  const filtered = mockStaff.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
+  const staff = useActiveStaff();
+  const filtered = staff.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold font-heading text-foreground">Staff Management</h1>
-          <p className="text-muted-foreground">Add, remove, and manage staff accounts</p>
+          <p className="text-muted-foreground">Add, archive, and manage staff accounts</p>
         </div>
         <Dialog open={showAdd} onOpenChange={setShowAdd}>
           <DialogTrigger asChild>
@@ -92,8 +87,8 @@ export default function SuperAdminStaff() {
                   <TableCell>
                     <div className="flex gap-1">
                       <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => toast.success("Staff account removed")}>
-                        <Trash2 className="w-4 h-4" />
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-warning" onClick={() => { archiveStaff(s.id); toast.success("Staff account archived"); }}>
+                        <Archive className="w-4 h-4" />
                       </Button>
                     </div>
                   </TableCell>

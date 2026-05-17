@@ -10,7 +10,7 @@ import { NavLink } from "@/components/NavLink";
 import {
   Users, CalendarDays, ListOrdered, Package, DollarSign, FileText, LogOut,
   CalendarPlus, History, LayoutDashboard, ClipboardList, FolderOpen, CalendarCheck,
-  UserCog, Settings, BarChart3, Shield
+  UserCog, Settings, BarChart3, Shield, Archive
 } from "lucide-react";
 
 const adminNav = [
@@ -34,6 +34,7 @@ const patientNav = [
 const superAdminNav = [
   { title: "Dashboard", url: "/superadmin", icon: LayoutDashboard },
   { title: "Staff Management", url: "/superadmin/staff", icon: UserCog },
+  { title: "Archived Staff", url: "/superadmin/archives", icon: Archive },
   { title: "System Settings", url: "/superadmin/settings", icon: Settings },
   { title: "Reports & Analytics", url: "/superadmin/reports", icon: BarChart3 },
 ];
