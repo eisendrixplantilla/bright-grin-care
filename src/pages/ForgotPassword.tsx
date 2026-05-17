@@ -31,7 +31,7 @@ export default function ForgotPassword() {
         className="w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <div className="w-20 h-20 mx-auto mb-4 aspect-square rounded-2xl gradient-primary shadow-elevated flex items-center justify-center">
+          <div className="w-20 h-20 mx-auto mb-4 aspect-square rounded-2xl gradient-primary shadow-2xl shadow-primary/40 flex items-center justify-center">
             <img src="/clinic-logo.png" alt="Ayag Dental Clinic" className="w-2/3 h-2/3 object-contain drop-shadow-2xl" />
           </div>
           <h1 className="text-3xl font-bold font-heading text-foreground">Ayag Dental Clinic</h1>
