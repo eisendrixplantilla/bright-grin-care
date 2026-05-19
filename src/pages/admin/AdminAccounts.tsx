@@ -17,9 +17,14 @@ const mockAccounts = [
 
 export default function AdminAccounts() {
   const [search, setSearch] = useState("");
-  const filtered = mockAccounts.filter(a =>
-    a.name.toLowerCase().includes(search.toLowerCase()) || a.email.toLowerCase().includes(search.toLowerCase())
-  );
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const filtered = mockAccounts.filter(a => {
+    const matchesSearch = a.name.toLowerCase().includes(search.toLowerCase()) || a.email.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || a.created >= fromDate;
+    const matchesTo = !toDate || a.created <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
