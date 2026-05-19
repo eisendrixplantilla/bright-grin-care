@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Users, Search, Eye, Edit, Trash2 } from "lucide-react";
@@ -16,9 +17,14 @@ const mockAccounts = [
 
 export default function AdminAccounts() {
   const [search, setSearch] = useState("");
-  const filtered = mockAccounts.filter(a =>
-    a.name.toLowerCase().includes(search.toLowerCase()) || a.email.toLowerCase().includes(search.toLowerCase())
-  );
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const filtered = mockAccounts.filter(a => {
+    const matchesSearch = a.name.toLowerCase().includes(search.toLowerCase()) || a.email.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || a.created >= fromDate;
+    const matchesTo = !toDate || a.created <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
@@ -29,10 +35,23 @@ export default function AdminAccounts() {
 
       <Card className="shadow-card">
         <CardHeader>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-3">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input placeholder="Search by name or email..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex items-end gap-2">
+              <div>
+                <Label className="text-xs text-muted-foreground">From</Label>
+                <Input type="date" value={fromDate} onChange={e => setFromDate(e.target.value)} className="w-40" />
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">To</Label>
+                <Input type="date" value={toDate} onChange={e => setToDate(e.target.value)} className="w-40" />
+              </div>
+              {(fromDate || toDate) && (
+                <Button variant="ghost" size="sm" onClick={() => { setFromDate(""); setToDate(""); }}>Clear</Button>
+              )}
             </div>
           </div>
         </CardHeader>

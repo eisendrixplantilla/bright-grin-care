@@ -14,8 +14,15 @@ import { useActiveStaff, archiveStaff } from "@/lib/staffStore";
 export default function SuperAdminStaff() {
   const [showAdd, setShowAdd] = useState(false);
   const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const staff = useActiveStaff();
-  const filtered = staff.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = staff.filter(s => {
+    const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || s.joined >= fromDate;
+    const matchesTo = !toDate || s.joined <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
@@ -51,9 +58,24 @@ export default function SuperAdminStaff() {
 
       <Card className="shadow-card">
         <CardHeader>
-          <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="Search staff..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
+          <div className="flex flex-col sm:flex-row sm:items-end gap-3">
+            <div className="relative max-w-sm flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input placeholder="Search staff..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex items-end gap-2">
+              <div>
+                <Label className="text-xs text-muted-foreground">From</Label>
+                <Input type="date" value={fromDate} onChange={e => setFromDate(e.target.value)} className="w-40" />
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">To</Label>
+                <Input type="date" value={toDate} onChange={e => setToDate(e.target.value)} className="w-40" />
+              </div>
+              {(fromDate || toDate) && (
+                <Button variant="ghost" size="sm" onClick={() => { setFromDate(""); setToDate(""); }}>Clear</Button>
+              )}
+            </div>
           </div>
         </CardHeader>
         <CardContent>

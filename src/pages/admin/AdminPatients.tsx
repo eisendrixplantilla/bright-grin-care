@@ -19,8 +19,15 @@ const mockPatients = [
 
 export default function AdminPatients() {
   const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const filtered = mockPatients.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase()));
+  const filtered = mockPatients.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || p.lastVisit >= fromDate;
+    const matchesTo = !toDate || p.lastVisit <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
@@ -51,10 +58,23 @@ export default function AdminPatients() {
 
       <Card className="shadow-card">
         <CardHeader>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-3">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input placeholder="Search patients..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex items-end gap-2">
+              <div>
+                <Label className="text-xs text-muted-foreground">From</Label>
+                <Input type="date" value={fromDate} onChange={e => setFromDate(e.target.value)} className="w-40" />
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground">To</Label>
+                <Input type="date" value={toDate} onChange={e => setToDate(e.target.value)} className="w-40" />
+              </div>
+              {(fromDate || toDate) && (
+                <Button variant="ghost" size="sm" onClick={() => { setFromDate(""); setToDate(""); }}>Clear</Button>
+              )}
             </div>
           </div>
         </CardHeader>
