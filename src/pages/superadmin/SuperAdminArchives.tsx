@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArchiveRestore, Search } from "lucide-react";
@@ -10,8 +11,15 @@ import { useArchivedStaff, restoreStaff } from "@/lib/staffStore";
 
 export default function SuperAdminArchives() {
   const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const archived = useArchivedStaff();
-  const filtered = archived.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = archived.filter(s => {
+    const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || (s.archivedAt ?? "") >= fromDate;
+    const matchesTo = !toDate || (s.archivedAt ?? "") <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
