@@ -19,8 +19,15 @@ const mockPatients = [
 
 export default function AdminPatients() {
   const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const filtered = mockPatients.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase()));
+  const filtered = mockPatients.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.id.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || p.lastVisit >= fromDate;
+    const matchesTo = !toDate || p.lastVisit <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
