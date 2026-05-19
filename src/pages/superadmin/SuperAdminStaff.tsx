@@ -14,8 +14,15 @@ import { useActiveStaff, archiveStaff } from "@/lib/staffStore";
 export default function SuperAdminStaff() {
   const [showAdd, setShowAdd] = useState(false);
   const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const staff = useActiveStaff();
-  const filtered = staff.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
+  const filtered = staff.filter(s => {
+    const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase());
+    const matchesFrom = !fromDate || s.joined >= fromDate;
+    const matchesTo = !toDate || s.joined <= toDate;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="space-y-6">
