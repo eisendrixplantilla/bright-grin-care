@@ -109,8 +109,10 @@ const initialAppointments: Appointment[] = [
 ];
 
 const past: Appointment[] = [
-  { id: 5, service: "Restoration", date: atTime(-30, "09:00"), time: "09:00", dentist: "Dr. Ayag", status: "completed", rescheduled: false },
+  { id: 5, service: "Restoration", date: atTime(-30, "09:00"), time: "09:00", dentist: "Dr. Ayag", status: "completed", rescheduled: false, treatment: "Composite filling on tooth #14", notes: "No complications. Patient advised to avoid hard food for 24 hours." },
   { id: 6, service: "EXO (Bunot)", date: atTime(-60, "11:00"), time: "11:00", dentist: "Dr. Cruz", status: "cancelled", rescheduled: false },
+  { id: 7, service: "Dental Cleaning", date: atTime(-90, "10:00"), time: "10:00", dentist: "Dr. Reyes", status: "completed", rescheduled: false, treatment: "Prophylaxis (full mouth cleaning)", notes: "Minor plaque buildup. Recommended flossing daily." },
+  { id: 8, service: "Check-up", date: atTime(-120, "14:00"), time: "14:00", dentist: "Dr. Santos", status: "rejected", rescheduled: false },
 ];
 
 const statusColors: Record<string, string> = {
