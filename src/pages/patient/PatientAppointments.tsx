@@ -23,6 +23,8 @@ interface Appointment {
   dentist: string;
   status: Status;
   rescheduled: boolean;
+  treatment?: string;
+  notes?: string;
 }
 
 interface DentistSchedule {
