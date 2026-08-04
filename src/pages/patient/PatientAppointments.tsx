@@ -228,7 +228,8 @@ export default function PatientAppointments() {
             </TabsContent>
             <TabsContent value="past">
               <div className="space-y-3">
-                {past.map((apt) => (
+                <p className="text-sm text-muted-foreground">This is your appointment history. Completed appointments are view-only.</p>
+                {history.map((apt) => (
                   <div key={apt.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
                     <div>
                       <p className="font-medium text-foreground">{apt.service}</p>
