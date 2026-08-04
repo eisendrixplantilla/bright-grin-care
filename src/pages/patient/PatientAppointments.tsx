@@ -258,7 +258,21 @@ export default function PatientAppointments() {
               <div className="flex justify-between"><span className="text-muted-foreground">Time</span><span className="font-medium">{timeLabel(detailsApt.time)}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Dentist</span><span className="font-medium">{detailsApt.dentist}</span></div>
               <div className="flex justify-between items-center"><span className="text-muted-foreground">Status</span><Badge variant="outline" className={statusColors[detailsApt.status]}>{detailsApt.status}</Badge></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Rescheduled</span><span className="font-medium">{detailsApt.rescheduled ? "Yes (one-time used)" : "No"}</span></div>
+              {detailsApt.status !== "completed" && (
+                <div className="flex justify-between"><span className="text-muted-foreground">Rescheduled</span><span className="font-medium">{detailsApt.rescheduled ? "Yes (one-time used)" : "No"}</span></div>
+              )}
+              {detailsApt.treatment && (
+                <div className="pt-2 border-t border-border">
+                  <p className="text-muted-foreground">Treatment Done</p>
+                  <p className="font-medium text-foreground">{detailsApt.treatment}</p>
+                </div>
+              )}
+              {detailsApt.notes && (
+                <div>
+                  <p className="text-muted-foreground">Notes</p>
+                  <p className="text-foreground">{detailsApt.notes}</p>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
