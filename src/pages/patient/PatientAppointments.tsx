@@ -23,6 +23,8 @@ interface Appointment {
   dentist: string;
   status: Status;
   rescheduled: boolean;
+  treatment?: string;
+  notes?: string;
 }
 
 interface DentistSchedule {
@@ -107,8 +109,10 @@ const initialAppointments: Appointment[] = [
 ];
 
 const past: Appointment[] = [
-  { id: 5, service: "Restoration", date: atTime(-30, "09:00"), time: "09:00", dentist: "Dr. Ayag", status: "completed", rescheduled: false },
+  { id: 5, service: "Restoration", date: atTime(-30, "09:00"), time: "09:00", dentist: "Dr. Ayag", status: "completed", rescheduled: false, treatment: "Composite filling on tooth #14", notes: "No complications. Patient advised to avoid hard food for 24 hours." },
   { id: 6, service: "EXO (Bunot)", date: atTime(-60, "11:00"), time: "11:00", dentist: "Dr. Cruz", status: "cancelled", rescheduled: false },
+  { id: 7, service: "Dental Cleaning", date: atTime(-90, "10:00"), time: "10:00", dentist: "Dr. Reyes", status: "completed", rescheduled: false, treatment: "Prophylaxis (full mouth cleaning)", notes: "Minor plaque buildup. Recommended flossing daily." },
+  { id: 8, service: "Check-up", date: atTime(-120, "14:00"), time: "14:00", dentist: "Dr. Santos", status: "rejected", rescheduled: false },
 ];
 
 const statusColors: Record<string, string> = {
@@ -133,6 +137,9 @@ export default function PatientAppointments() {
   const slots = useMemo(() => generateSlots(schedule, newDate), [schedule, newDate]);
 
   const upcoming = appointments.filter((a) => a.status === "pending" || a.status === "confirmed");
+  const history = [...past, ...appointments.filter((a) => !["pending", "confirmed"].includes(a.status))].sort(
+    (a, b) => b.date.getTime() - a.date.getTime()
+  );
 
   const hours24 = (apt: Appointment) => apt.date.getTime() - Date.now() >= 24 * 60 * 60 * 1000;
 
@@ -172,7 +179,7 @@ export default function PatientAppointments() {
           <Tabs defaultValue="upcoming">
             <TabsList className="mb-4">
               <TabsTrigger value="upcoming">Upcoming ({upcoming.length})</TabsTrigger>
-              <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
+              <TabsTrigger value="past">Past ({history.length})</TabsTrigger>
             </TabsList>
             <TabsContent value="upcoming">
               <div className="space-y-3">
@@ -221,7 +228,8 @@ export default function PatientAppointments() {
             </TabsContent>
             <TabsContent value="past">
               <div className="space-y-3">
-                {past.map((apt) => (
+                <p className="text-sm text-muted-foreground">This is your appointment history. Completed appointments are view-only.</p>
+                {history.map((apt) => (
                   <div key={apt.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
                     <div>
                       <p className="font-medium text-foreground">{apt.service}</p>
@@ -254,7 +262,21 @@ export default function PatientAppointments() {
               <div className="flex justify-between"><span className="text-muted-foreground">Time</span><span className="font-medium">{timeLabel(detailsApt.time)}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Dentist</span><span className="font-medium">{detailsApt.dentist}</span></div>
               <div className="flex justify-between items-center"><span className="text-muted-foreground">Status</span><Badge variant="outline" className={statusColors[detailsApt.status]}>{detailsApt.status}</Badge></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Rescheduled</span><span className="font-medium">{detailsApt.rescheduled ? "Yes (one-time used)" : "No"}</span></div>
+              {detailsApt.status !== "completed" && (
+                <div className="flex justify-between"><span className="text-muted-foreground">Rescheduled</span><span className="font-medium">{detailsApt.rescheduled ? "Yes (one-time used)" : "No"}</span></div>
+              )}
+              {detailsApt.treatment && (
+                <div className="pt-2 border-t border-border">
+                  <p className="text-muted-foreground">Treatment Done</p>
+                  <p className="font-medium text-foreground">{detailsApt.treatment}</p>
+                </div>
+              )}
+              {detailsApt.notes && (
+                <div>
+                  <p className="text-muted-foreground">Notes</p>
+                  <p className="text-foreground">{detailsApt.notes}</p>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
