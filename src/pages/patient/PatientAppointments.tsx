@@ -137,6 +137,9 @@ export default function PatientAppointments() {
   const slots = useMemo(() => generateSlots(schedule, newDate), [schedule, newDate]);
 
   const upcoming = appointments.filter((a) => a.status === "pending" || a.status === "confirmed");
+  const history = [...past, ...appointments.filter((a) => !["pending", "confirmed"].includes(a.status))].sort(
+    (a, b) => b.date.getTime() - a.date.getTime()
+  );
 
   const hours24 = (apt: Appointment) => apt.date.getTime() - Date.now() >= 24 * 60 * 60 * 1000;
 
