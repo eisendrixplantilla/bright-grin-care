@@ -15,12 +15,10 @@ import {
 
 const adminNav = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Appointment", url: "/admin/online-appointments", icon: CalendarPlus },
+  { title: "Walk-in Appointment", url: "/admin/appointments", icon: CalendarDays },
   { title: "Patient Records", url: "/admin/patients", icon: FolderOpen },
   { title: "Patient Accounts", url: "/admin/accounts", icon: Users },
-  { title: "Walk-in Appointments", url: "/admin/appointments", icon: CalendarDays },
-  { title: "Online Appointments", url: "/admin/online-appointments", icon: CalendarPlus },
-  { title: "Sales", url: "/admin/sales", icon: DollarSign },
-  { title: "Inventory", url: "/admin/inventory", icon: Package },
   { title: "Reports", url: "/admin/reports", icon: FileText },
 ];
 
