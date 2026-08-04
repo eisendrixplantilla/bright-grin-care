@@ -179,7 +179,7 @@ export default function PatientAppointments() {
           <Tabs defaultValue="upcoming">
             <TabsList className="mb-4">
               <TabsTrigger value="upcoming">Upcoming ({upcoming.length})</TabsTrigger>
-              <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
+              <TabsTrigger value="past">Past ({history.length})</TabsTrigger>
             </TabsList>
             <TabsContent value="upcoming">
               <div className="space-y-3">
