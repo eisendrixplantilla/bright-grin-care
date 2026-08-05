@@ -66,6 +66,9 @@ export default function AdminOnlineAppointments() {
     return matchesSearch && matchesDate && matchesStatus && matchesDentist;
   }), [appointments, search, dateFilter, statusFilter, dentistFilter]);
 
+  const selectedLive = selected ? appointments.find(a => a.id === selected.id) ?? null : null;
+
+
   const clearFilters = () => {
     setSearch(""); setDateFilter(""); setStatusFilter("all"); setDentistFilter("all");
   };
