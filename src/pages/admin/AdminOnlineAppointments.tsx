@@ -203,24 +203,39 @@ export default function AdminOnlineAppointments() {
             <DialogTitle className="font-heading">Appointment Details</DialogTitle>
             <DialogDescription>Full information for this appointment.</DialogDescription>
           </DialogHeader>
-          {selected && (
+          {selectedLive && (
             <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-1.5 text-sm">
-              <p><span className="font-semibold text-foreground">Appointment ID:</span> {selected.id}</p>
-              <p><span className="font-semibold text-foreground">Patient:</span> {selected.patient}</p>
-              <p><span className="font-semibold text-foreground">Email:</span> {selected.email}</p>
-              <p><span className="font-semibold text-foreground">Phone:</span> {selected.phone}</p>
-              <p><span className="font-semibold text-foreground">Service:</span> {selected.service}</p>
-              <p><span className="font-semibold text-foreground">Assigned Dentist:</span> {selected.dentist}</p>
-              <p><span className="font-semibold text-foreground">Date & Time:</span> {selected.date} at {selected.time}</p>
-              <p><span className="font-semibold text-foreground">Type:</span> {selected.type}</p>
-              <p className="flex items-center gap-2"><span className="font-semibold text-foreground">Status:</span>
-                <Badge variant="outline" className={statusColors[selected.status]}>{selected.status}</Badge>
+              <p><span className="font-semibold text-foreground">Appointment ID:</span> {selectedLive.id}</p>
+              <p><span className="font-semibold text-foreground">Patient Name:</span> {selectedLive.patient}</p>
+              <p><span className="font-semibold text-foreground">Contact Number:</span> {selectedLive.phone}</p>
+              <p><span className="font-semibold text-foreground">Email Address:</span> {selectedLive.email}</p>
+              <p><span className="font-semibold text-foreground">Selected Service:</span> {selectedLive.service}</p>
+              <p><span className="font-semibold text-foreground">Assigned Dentist:</span> {selectedLive.dentist}</p>
+              <p><span className="font-semibold text-foreground">Appointment Date:</span> {selectedLive.date}</p>
+              <p><span className="font-semibold text-foreground">Appointment Time:</span> {selectedLive.time}</p>
+              <p><span className="font-semibold text-foreground">Appointment Type:</span> {selectedLive.type}</p>
+              <p className="flex items-center gap-2"><span className="font-semibold text-foreground">Current Status:</span>
+                <Badge variant="outline" className={statusColors[selectedLive.status]}>{selectedLive.status}</Badge>
               </p>
-              {selected.reason && <p><span className="font-semibold text-foreground">Rejection Reason:</span> {selected.reason}</p>}
+              {selectedLive.reason && <p><span className="font-semibold text-foreground">Rejection Reason:</span> {selectedLive.reason}</p>}
             </div>
           )}
-          <DialogFooter>
+          <DialogFooter className="gap-2 sm:gap-2">
             <Button variant="outline" onClick={() => setDetailsOpen(false)}>Close</Button>
+            {selectedLive?.status === "pending" && (
+              <>
+                <Button
+                  variant="outline"
+                  className="text-destructive border-destructive/30 hover:bg-destructive/10"
+                  onClick={() => { setDetailsOpen(false); openReject(selectedLive); }}
+                >
+                  <XCircle className="w-4 h-4 mr-1" /> Reject Appointment
+                </Button>
+                <Button className="gradient-primary text-primary-foreground" onClick={() => handleApprove(selectedLive)}>
+                  <CheckCircle className="w-4 h-4 mr-1" /> Confirm Appointment
+                </Button>
+              </>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
