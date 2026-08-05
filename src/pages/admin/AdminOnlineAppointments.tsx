@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,201 +7,243 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CalendarDays, CheckCircle, XCircle, Send } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CalendarDays, CheckCircle, XCircle, Eye, Search, Mail } from "lucide-react";
 import { toast } from "sonner";
 
-interface OnlineAppointment {
+type Status = "pending" | "confirmed" | "rejected";
+
+interface Appointment {
   id: string;
   patient: string;
-  service: string;
-  date: string;
-  preferredTime: string;
-  dentist: string;
-  time: string;
+  email: string;
   phone: string;
-  status: "pending" | "confirmed" | "declined";
+  service: string;
+  dentist: string;
+  date: string;
+  time: string;
+  type: "Online" | "Walk-in";
+  status: Status;
+  reason?: string;
 }
 
-const initialAppointments: OnlineAppointment[] = [
-  { id: "OA001", patient: "Juan Dela Cruz", service: "Teeth Whitening", date: "2024-03-20", preferredTime: "Morning (9AM-12PM)", dentist: "Dr. Ayag", time: "10:00 AM", phone: "09171234567", status: "pending" },
-  { id: "OA002", patient: "Maria Santos", service: "Root Canal", date: "2024-03-21", preferredTime: "Afternoon (1PM-5PM)", dentist: "Dr. Santos", time: "2:00 PM", phone: "09181234567", status: "pending" },
-  { id: "OA003", patient: "Pedro Reyes", service: "Orthodontics (Braces)", date: "2024-03-22", preferredTime: "Morning (9AM-12PM)", dentist: "Dr. Reyes", time: "9:00 AM", phone: "09191234567", status: "confirmed" },
-  { id: "OA004", patient: "Ana Garcia", service: "EXO (Bunot)", date: "2024-03-19", preferredTime: "Afternoon (1PM-5PM)", dentist: "Dr. Cruz", time: "3:30 PM", phone: "09201234567", status: "declined" },
+const initialAppointments: Appointment[] = [
+  { id: "AP001", patient: "Juan Dela Cruz", email: "juan.delacruz@email.com", phone: "09171234567", service: "Teeth Whitening", dentist: "Dr. Ayag", date: "2024-03-20", time: "10:00 AM", type: "Online", status: "pending" },
+  { id: "AP002", patient: "Maria Santos", email: "maria.santos@email.com", phone: "09181234567", service: "Root Canal", dentist: "Dr. Santos", date: "2024-03-21", time: "2:00 PM", type: "Online", status: "pending" },
+  { id: "AP003", patient: "Pedro Reyes", email: "pedro.reyes@email.com", phone: "09191234567", service: "Orthodontics (Braces)", dentist: "Dr. Reyes", date: "2024-03-22", time: "9:00 AM", type: "Walk-in", status: "confirmed" },
+  { id: "AP004", patient: "Ana Garcia", email: "ana.garcia@email.com", phone: "09201234567", service: "EXO (Bunot)", dentist: "Dr. Cruz", date: "2024-03-19", time: "3:30 PM", type: "Online", status: "rejected", reason: "Dentist unavailable on the selected date." },
+  { id: "AP005", patient: "Liza Manalo", email: "liza.manalo@email.com", phone: "09211234567", service: "Oral Prophylaxis", dentist: "Dr. Ayag", date: "2024-03-23", time: "11:00 AM", type: "Walk-in", status: "pending" },
 ];
 
-const statusColors: Record<string, string> = {
+const statusColors: Record<Status, string> = {
   pending: "bg-warning/10 text-warning border-warning/20",
   confirmed: "bg-success/10 text-success border-success/20",
-  declined: "bg-destructive/10 text-destructive border-destructive/20",
+  rejected: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
 export default function AdminOnlineAppointments() {
-  const [appointments, setAppointments] = useState<OnlineAppointment[]>(initialAppointments);
-  const [confirmDialog, setConfirmDialog] = useState(false);
-  const [selectedAppointment, setSelectedAppointment] = useState<OnlineAppointment | null>(null);
-  const [message, setMessage] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [appointments, setAppointments] = useState<Appointment[]>(initialAppointments);
+  const [selected, setSelected] = useState<Appointment | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [reason, setReason] = useState("");
 
-  const openConfirmDialog = (apt: OnlineAppointment) => {
-    setSelectedAppointment(apt);
-    setPhoneNumber(apt.phone);
-    setMessage(
-      `Hi ${apt.patient}! Your appointment for ${apt.service} with ${apt.dentist} on ${apt.date} at ${apt.time} has been confirmed. Please arrive 10 minutes early. Thank you! - Ayag Dental Clinic`
-    );
-    setConfirmDialog(true);
+  const [search, setSearch] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [dentistFilter, setDentistFilter] = useState("all");
+
+  const dentists = useMemo(
+    () => Array.from(new Set(appointments.map(a => a.dentist))).sort(),
+    [appointments]
+  );
+
+  const filtered = useMemo(() => appointments.filter(a => {
+    const matchesSearch = !search || a.patient.toLowerCase().includes(search.toLowerCase()) || a.id.toLowerCase().includes(search.toLowerCase());
+    const matchesDate = !dateFilter || a.date === dateFilter;
+    const matchesStatus = statusFilter === "all" || a.status === statusFilter;
+    const matchesDentist = dentistFilter === "all" || a.dentist === dentistFilter;
+    return matchesSearch && matchesDate && matchesStatus && matchesDentist;
+  }), [appointments, search, dateFilter, statusFilter, dentistFilter]);
+
+  const clearFilters = () => {
+    setSearch(""); setDateFilter(""); setStatusFilter("all"); setDentistFilter("all");
   };
 
-  const handleConfirmSend = () => {
-    if (!selectedAppointment) return;
-    setAppointments(prev =>
-      prev.map(a => a.id === selectedAppointment.id ? { ...a, status: "confirmed" } : a)
-    );
-    toast.success(`Appointment confirmed! Message sent to ${phoneNumber}`);
-    setConfirmDialog(false);
-    setSelectedAppointment(null);
-    setMessage("");
+  const handleApprove = (apt: Appointment) => {
+    setAppointments(prev => prev.map(a => a.id === apt.id ? { ...a, status: "confirmed" } : a));
+    toast.success(`Appointment ${apt.id} confirmed`, {
+      description: `Confirmation email sent to ${apt.email}`,
+    });
   };
 
-  const handleDecline = (id: string) => {
-    setAppointments(prev => prev.map(a => a.id === id ? { ...a, status: "declined" } : a));
-    toast.success("Appointment declined.");
+  const openReject = (apt: Appointment) => {
+    setSelected(apt);
+    setReason("");
+    setRejectOpen(true);
   };
 
-  const pending = appointments.filter(a => a.status === "pending");
+  const handleReject = () => {
+    if (!selected || !reason.trim()) return;
+    setAppointments(prev => prev.map(a => a.id === selected.id ? { ...a, status: "rejected", reason: reason.trim() } : a));
+    toast.success(`Appointment ${selected.id} rejected`, {
+      description: `Rejection email sent to ${selected.email} with the reason provided.`,
+    });
+    setRejectOpen(false);
+    setSelected(null);
+    setReason("");
+  };
+
+  const openDetails = (apt: Appointment) => {
+    setSelected(apt);
+    setDetailsOpen(true);
+  };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold font-heading text-foreground">Online Appointments</h1>
-        <p className="text-muted-foreground">Review and confirm patient online bookings</p>
+        <h1 className="text-2xl font-bold font-heading text-foreground">Appointments</h1>
+        <p className="text-muted-foreground">Review, approve, and manage patient appointments</p>
       </div>
+
+      <Card className="shadow-card">
+        <CardContent className="pt-6">
+          <div className="grid gap-3 md:grid-cols-5">
+            <div className="relative md:col-span-2">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input className="pl-9" placeholder="Search patient name or ID..." value={search} onChange={e => setSearch(e.target.value)} />
+            </div>
+            <Input type="date" value={dateFilter} onChange={e => setDateFilter(e.target.value)} />
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger><SelectValue placeholder="Status" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="confirmed">Confirmed</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={dentistFilter} onValueChange={setDentistFilter}>
+              <SelectTrigger><SelectValue placeholder="Dentist" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Dentists</SelectItem>
+                {dentists.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="mt-3 flex justify-end">
+            <Button variant="ghost" size="sm" onClick={clearFilters}>Clear filters</Button>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="shadow-card">
         <CardHeader>
           <CardTitle className="font-heading text-lg flex items-center gap-2">
-            <CalendarDays className="w-5 h-5 text-primary" /> Pending Appointments ({pending.length})
+            <CalendarDays className="w-5 h-5 text-primary" /> Appointments ({filtered.length})
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Patient</TableHead>
+                <TableHead>Appointment ID</TableHead>
+                <TableHead>Patient Name</TableHead>
                 <TableHead>Service</TableHead>
+                <TableHead>Assigned Dentist</TableHead>
                 <TableHead>Date</TableHead>
-                <TableHead>Preferred Time</TableHead>
-                <TableHead>Dentist</TableHead>
-                <TableHead>Time Slot</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Time</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {pending.map(apt => (
+              {filtered.map(apt => (
                 <TableRow key={apt.id}>
+                  <TableCell className="font-mono text-xs">{apt.id}</TableCell>
                   <TableCell className="font-medium">{apt.patient}</TableCell>
                   <TableCell>{apt.service}</TableCell>
-                  <TableCell>{apt.date}</TableCell>
-                  <TableCell>{apt.preferredTime}</TableCell>
                   <TableCell>{apt.dentist}</TableCell>
+                  <TableCell>{apt.date}</TableCell>
                   <TableCell>{apt.time}</TableCell>
+                  <TableCell><Badge variant="secondary">{apt.type}</Badge></TableCell>
+                  <TableCell><Badge variant="outline" className={statusColors[apt.status]}>{apt.status}</Badge></TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      <Button size="sm" className="gradient-primary text-primary-foreground" onClick={() => openConfirmDialog(apt)}>
-                        <CheckCircle className="w-4 h-4 mr-1" /> Confirm
+                    <div className="flex gap-2 justify-end">
+                      <Button size="sm" variant="outline" onClick={() => openDetails(apt)}>
+                        <Eye className="w-4 h-4 mr-1" /> View
                       </Button>
-                      <Button size="sm" variant="outline" className="text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => handleDecline(apt.id)}>
-                        <XCircle className="w-4 h-4 mr-1" /> Decline
-                      </Button>
+                      {apt.status === "pending" && (
+                        <>
+                          <Button size="sm" className="gradient-primary text-primary-foreground" onClick={() => handleApprove(apt)}>
+                            <CheckCircle className="w-4 h-4 mr-1" /> Approve
+                          </Button>
+                          <Button size="sm" variant="outline" className="text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => openReject(apt)}>
+                            <XCircle className="w-4 h-4 mr-1" /> Reject
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>
               ))}
-              {pending.length === 0 && (
-                <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-8">No pending appointments</TableCell></TableRow>
+              {filtered.length === 0 && (
+                <TableRow><TableCell colSpan={9} className="text-center text-muted-foreground py-8">No appointments found</TableCell></TableRow>
               )}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
 
-      <Card className="shadow-card">
-        <CardHeader>
-          <CardTitle className="font-heading text-lg flex items-center gap-2">
-            <CalendarDays className="w-5 h-5 text-primary" /> All Online Appointments
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Patient</TableHead>
-                <TableHead>Service</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Dentist</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {appointments.map(apt => (
-                <TableRow key={apt.id}>
-                  <TableCell className="font-medium">{apt.patient}</TableCell>
-                  <TableCell>{apt.service}</TableCell>
-                  <TableCell>{apt.date}</TableCell>
-                  <TableCell>{apt.dentist}</TableCell>
-                  <TableCell>{apt.time}</TableCell>
-                  <TableCell><Badge variant="outline" className={statusColors[apt.status]}>{apt.status}</Badge></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Confirm & Send Message Dialog */}
-      <Dialog open={confirmDialog} onOpenChange={setConfirmDialog}>
+      {/* View Details */}
+      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-primary">
-              <Send className="w-5 h-5" /> Confirm Appointment & Send Reminder
+            <DialogTitle className="font-heading">Appointment Details</DialogTitle>
+            <DialogDescription>Full information for this appointment.</DialogDescription>
+          </DialogHeader>
+          {selected && (
+            <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-1.5 text-sm">
+              <p><span className="font-semibold text-foreground">Appointment ID:</span> {selected.id}</p>
+              <p><span className="font-semibold text-foreground">Patient:</span> {selected.patient}</p>
+              <p><span className="font-semibold text-foreground">Email:</span> {selected.email}</p>
+              <p><span className="font-semibold text-foreground">Phone:</span> {selected.phone}</p>
+              <p><span className="font-semibold text-foreground">Service:</span> {selected.service}</p>
+              <p><span className="font-semibold text-foreground">Assigned Dentist:</span> {selected.dentist}</p>
+              <p><span className="font-semibold text-foreground">Date & Time:</span> {selected.date} at {selected.time}</p>
+              <p><span className="font-semibold text-foreground">Type:</span> {selected.type}</p>
+              <p className="flex items-center gap-2"><span className="font-semibold text-foreground">Status:</span>
+                <Badge variant="outline" className={statusColors[selected.status]}>{selected.status}</Badge>
+              </p>
+              {selected.reason && <p><span className="font-semibold text-foreground">Rejection Reason:</span> {selected.reason}</p>}
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDetailsOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Reject with reason */}
+      <Dialog open={rejectOpen} onOpenChange={setRejectOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <XCircle className="w-5 h-5" /> Reject Appointment
             </DialogTitle>
             <DialogDescription>
-              Confirm this appointment and send a reminder message to the patient.
+              A reason is required. It will be included in the rejection email sent to the patient.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-2">
-            {selectedAppointment && (
-              <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-1 text-sm">
-                <p><span className="font-semibold text-foreground">Patient:</span> {selectedAppointment.patient}</p>
-                <p><span className="font-semibold text-foreground">Service:</span> {selectedAppointment.service}</p>
-                <p><span className="font-semibold text-foreground">Date:</span> {selectedAppointment.date} at {selectedAppointment.time}</p>
-                <p><span className="font-semibold text-foreground">Dentist:</span> {selectedAppointment.dentist}</p>
-              </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="phone">Patient Phone Number</Label>
-              <Input
-                id="phone"
-                value={phoneNumber}
-                onChange={e => setPhoneNumber(e.target.value)}
-                placeholder="e.g. 09171234567"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="message">Reminder Message</Label>
-              <Textarea
-                id="message"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                rows={5}
-                placeholder="Type your reminder message here..."
-              />
-            </div>
+          <div className="space-y-2 py-2">
+            <Label htmlFor="reason">Reason for rejection</Label>
+            <Textarea id="reason" rows={4} value={reason} onChange={e => setReason(e.target.value)} placeholder="e.g. Dentist is unavailable on the selected date." />
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setConfirmDialog(false)}>Cancel</Button>
-            <Button className="gradient-primary text-primary-foreground" onClick={handleConfirmSend} disabled={!message.trim() || !phoneNumber.trim()}>
-              <Send className="w-4 h-4 mr-1" /> Confirm & Send
+            <Button variant="outline" onClick={() => setRejectOpen(false)}>Cancel</Button>
+            <Button variant="destructive" onClick={handleReject} disabled={!reason.trim()}>
+              <Mail className="w-4 h-4 mr-1" /> Reject & Notify
             </Button>
           </DialogFooter>
         </DialogContent>
