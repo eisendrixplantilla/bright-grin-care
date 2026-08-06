@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import DashboardLayout from "./components/DashboardLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminPatients from "./pages/admin/AdminPatients";
+import AdminPatientHistory from "./pages/admin/AdminPatientHistory";
 import AdminAppointments from "./pages/admin/AdminAppointments";
 import AdminQueue from "./pages/admin/AdminQueue";
 import AdminInventory from "./pages/admin/AdminInventory";
