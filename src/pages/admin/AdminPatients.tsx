@@ -95,14 +95,16 @@ export default function AdminPatients() {
               {filtered.map(p => (
                 <TableRow key={p.id}>
                   <TableCell className="font-mono text-sm">{p.id}</TableCell>
-                  <TableCell className="font-medium">{p.name}</TableCell>
+                  <TableCell>
+                    <button className="font-medium text-primary hover:underline" onClick={() => navigate(`/admin/patients/${p.id}`)}>{p.name}</button>
+                  </TableCell>
                   <TableCell>{p.age}</TableCell>
                   <TableCell>{p.phone}</TableCell>
                   <TableCell>{p.lastVisit}</TableCell>
                   <TableCell><Badge variant={p.status === "active" ? "default" : "secondary"} className={p.status === "active" ? "bg-success/10 text-success border-success/20" : ""}>{p.status}</Badge></TableCell>
                   <TableCell>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="icon" className="h-8 w-8"><Eye className="w-4 h-4" /></Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(`/admin/patients/${p.id}`)}><Eye className="w-4 h-4" /></Button>
                       <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-4 h-4" /></Button>
                     </div>
                   </TableCell>
