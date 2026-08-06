@@ -19,6 +19,7 @@ const mockPatients = [
 ];
 
 export default function AdminPatients() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
