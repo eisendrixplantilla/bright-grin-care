@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import DashboardLayout from "./components/DashboardLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminPatients from "./pages/admin/AdminPatients";
+import AdminPatientHistory from "./pages/admin/AdminPatientHistory";
 import AdminAppointments from "./pages/admin/AdminAppointments";
 import AdminQueue from "./pages/admin/AdminQueue";
 import AdminInventory from "./pages/admin/AdminInventory";
@@ -70,6 +71,7 @@ function AppRoutes() {
       {/* Admin / Staff Routes */}
       <Route path="/admin" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminDashboard /></DashboardLayout></ProtectedRoute>} />
       <Route path="/admin/patients" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminPatients /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/admin/patients/:id" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminPatientHistory /></DashboardLayout></ProtectedRoute>} />
       <Route path="/admin/accounts" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminAccounts /></DashboardLayout></ProtectedRoute>} />
       <Route path="/admin/appointments" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminAppointments /></DashboardLayout></ProtectedRoute>} />
       <Route path="/admin/online-appointments" element={<ProtectedRoute roles={["admin"]}><DashboardLayout><AdminOnlineAppointments /></DashboardLayout></ProtectedRoute>} />
