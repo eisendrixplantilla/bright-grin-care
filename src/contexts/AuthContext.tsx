@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
+import { isAccountActive } from "@/lib/accountStore";
+
 
 export type UserRole = "admin" | "patient" | "superadmin";
 
@@ -54,7 +56,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await new Promise(r => setTimeout(r, 800));
     const found = MOCK_USERS.find(u => u.email === email && u.password === password);
     if (!found) throw new Error("Invalid email or password");
+    if (found.role === "patient" && !isAccountActive(found.email)) {
+      setIsLoading(false);
+      throw new Error("Your account has been deactivated. Please contact the clinic administrator.");
+    }
     const { password: _, ...userData } = found;
+
     if (!userData.verified) {
       setPendingUser(userData);
       throw new Error("VERIFY_REQUIRED");
