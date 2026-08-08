@@ -2,16 +2,30 @@ import StatCard from "@/components/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, CalendarDays, DollarSign, BarChart3, TrendingUp, UserCog, Printer } from "lucide-react";
+import { Users, CalendarDays, UserCog, Stethoscope, TrendingUp, Printer } from "lucide-react";
+import { useActiveStaff } from "@/lib/staffStore";
 
 const staffOverview = [
-  { name: "Dr. Sarah Chen", role: "Dentist", status: "active", patientsToday: 5 },
-  { name: "Dr. Mike Johnson", role: "Dentist", status: "active", patientsToday: 3 },
-  { name: "Nurse Amy Lee", role: "Staff", status: "active", patientsToday: 0 },
-  { name: "Receptionist Jen", role: "Staff", status: "on-leave", patientsToday: 0 },
+  { name: "Dr. Sarah Chen", role: "Dentist", status: "active" },
+  { name: "Dr. Mike Johnson", role: "Dentist", status: "active" },
+  { name: "Nurse Amy Lee", role: "Admin", status: "active" },
+  { name: "Receptionist Jen", role: "Admin", status: "inactive" },
+];
+
+const appointmentStatus = [
+  { label: "Pending", value: 12, className: "bg-warning" },
+  { label: "Confirmed", value: 28, className: "bg-primary" },
+  { label: "Completed", value: 96, className: "bg-success" },
+  { label: "Cancelled", value: 7, className: "bg-destructive" },
 ];
 
 export default function SuperAdminDashboard() {
+  const active = useActiveStaff();
+  const totalStaff = active.length || staffOverview.length;
+  const activeDentists = staffOverview.filter(s => s.role === "Dentist" && s.status === "active").length;
+  const totalAppointments = appointmentStatus.reduce((sum, s) => sum + s.value, 0);
+  const maxStatus = Math.max(...appointmentStatus.map(s => s.value));
+
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
@@ -25,10 +39,10 @@ export default function SuperAdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Patients" value={248} icon={Users} trend="+12 this month" trendUp delay={0} />
-        <StatCard title="Today's Appointments" value={14} icon={CalendarDays} trend="+5 vs yesterday" trendUp delay={0.1} />
-        <StatCard title="Monthly Revenue" value="₱285,000" icon={DollarSign} trend="+15% vs last month" trendUp delay={0.2} />
-        <StatCard title="Active Staff" value={3} icon={UserCog} trend="1 on leave" delay={0.3} />
+        <StatCard title="Total Registered Patients" value={248} icon={Users} trend="All time" delay={0} />
+        <StatCard title="Total Appointments" value={totalAppointments} icon={CalendarDays} trend="All time" delay={0.1} />
+        <StatCard title="Total Staff" value={totalStaff} icon={UserCog} trend="Admins & dentists" delay={0.2} />
+        <StatCard title="Active Dentists" value={activeDentists} icon={Stethoscope} trend="Currently active" delay={0.3} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -44,9 +58,9 @@ export default function SuperAdminDashboard() {
                 <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                   <div>
                     <p className="font-medium text-sm text-foreground">{staff.name}</p>
-                    <p className="text-xs text-muted-foreground">{staff.role} • {staff.patientsToday} patients today</p>
+                    <p className="text-xs text-muted-foreground">{staff.role}</p>
                   </div>
-                  <Badge variant="outline" className={staff.status === "active" ? "bg-success/10 text-success border-success/20" : "bg-warning/10 text-warning border-warning/20"}>
+                  <Badge variant="outline" className={staff.status === "active" ? "bg-success/10 text-success border-success/20 capitalize" : "bg-muted text-muted-foreground border-border capitalize"}>
                     {staff.status}
                   </Badge>
                 </div>
@@ -58,24 +72,27 @@ export default function SuperAdminDashboard() {
         <Card className="shadow-card">
           <CardHeader>
             <CardTitle className="font-heading text-lg flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary" /> Performance Overview
+              <TrendingUp className="w-5 h-5 text-primary" /> Appointment Status Summary
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {[
-                { label: "Patient Satisfaction", value: "94%", bar: 94 },
-                { label: "Appointment Completion", value: "88%", bar: 88 },
-                { label: "Average Wait Time", value: "12 min", bar: 70 },
-                { label: "Revenue Target", value: "78%", bar: 78 },
-              ].map((metric, i) => (
-                <div key={i}>
+            <div className="grid grid-cols-2 gap-3 mb-5">
+              {appointmentStatus.map(s => (
+                <div key={s.label} className="p-3 rounded-lg bg-muted/50">
+                  <p className="text-xs text-muted-foreground">{s.label}</p>
+                  <p className="text-xl font-bold font-heading text-foreground">{s.value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-3">
+              {appointmentStatus.map(s => (
+                <div key={s.label}>
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm text-foreground">{metric.label}</p>
-                    <p className="text-sm font-semibold text-foreground">{metric.value}</p>
+                    <p className="text-sm text-foreground">{s.label}</p>
+                    <p className="text-sm font-semibold text-foreground">{s.value}</p>
                   </div>
                   <div className="w-full h-2 bg-secondary rounded-full">
-                    <div className="h-2 rounded-full gradient-primary" style={{ width: `${metric.bar}%` }} />
+                    <div className={`h-2 rounded-full ${s.className}`} style={{ width: `${(s.value / maxStatus) * 100}%` }} />
                   </div>
                 </div>
               ))}
