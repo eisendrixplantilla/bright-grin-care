@@ -37,15 +37,26 @@ const superAdminNav = [
   { title: "Reports & Analytics", url: "/superadmin/reports", icon: BarChart3 },
 ];
 
+const dentistNav = [
+  { title: "Dashboard", url: "/dentist", icon: LayoutDashboard },
+  { title: "My Schedule", url: "/dentist/schedule", icon: CalendarCheck },
+  { title: "My Appointments", url: "/dentist/appointments", icon: CalendarDays },
+  { title: "Patient History", url: "/dentist/patient-history", icon: History },
+  { title: "Dental Records", url: "/dentist/records", icon: FolderOpen },
+  { title: "Profile", url: "/dentist/profile", icon: UserCog },
+];
+
 function getNav(role: string) {
   if (role === "superadmin") return superAdminNav;
   if (role === "admin") return adminNav;
+  if (role === "dentist") return dentistNav;
   return patientNav;
 }
 
 function getRoleLabel(role: string) {
   if (role === "superadmin") return "Super Admin";
   if (role === "admin") return "Clinic Staff";
+  if (role === "dentist") return "Dentist";
   return "Patient";
 }
 

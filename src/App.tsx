@@ -36,6 +36,13 @@ import SuperAdminArchives from "./pages/superadmin/SuperAdminArchives";
 import SuperAdminSettings from "./pages/superadmin/SuperAdminSettings";
 import SuperAdminReports from "./pages/superadmin/SuperAdminReports";
 
+import DentistDashboard from "./pages/dentist/DentistDashboard";
+import DentistSchedule from "./pages/dentist/DentistSchedule";
+import DentistAppointments from "./pages/dentist/DentistAppointments";
+import DentistPatientHistory from "./pages/dentist/DentistPatientHistory";
+import DentistRecords from "./pages/dentist/DentistRecords";
+import DentistProfile from "./pages/dentist/DentistProfile";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +50,7 @@ const queryClient = new QueryClient();
 function getRoleHome(role: string) {
   if (role === "superadmin") return "/superadmin";
   if (role === "admin") return "/admin";
+  if (role === "dentist") return "/dentist";
   return "/patient";
 }
 
@@ -94,6 +102,15 @@ function AppRoutes() {
       <Route path="/superadmin/archives" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminArchives /></DashboardLayout></ProtectedRoute>} />
       <Route path="/superadmin/settings" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminSettings /></DashboardLayout></ProtectedRoute>} />
       <Route path="/superadmin/reports" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminReports /></DashboardLayout></ProtectedRoute>} />
+
+      {/* Dentist Routes */}
+      <Route path="/dentist" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistDashboard /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/schedule" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistSchedule /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/appointments" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistAppointments /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/patient-history" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistPatientHistory /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/records" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistRecords /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/profile" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistProfile /></DashboardLayout></ProtectedRoute>} />
+
 
       <Route path="*" element={<NotFound />} />
     </Routes>
