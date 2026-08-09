@@ -36,6 +36,13 @@ import SuperAdminArchives from "./pages/superadmin/SuperAdminArchives";
 import SuperAdminSettings from "./pages/superadmin/SuperAdminSettings";
 import SuperAdminReports from "./pages/superadmin/SuperAdminReports";
 
+import DentistDashboard from "./pages/dentist/DentistDashboard";
+import DentistSchedule from "./pages/dentist/DentistSchedule";
+import DentistAppointments from "./pages/dentist/DentistAppointments";
+import DentistPatientHistory from "./pages/dentist/DentistPatientHistory";
+import DentistRecords from "./pages/dentist/DentistRecords";
+import DentistProfile from "./pages/dentist/DentistProfile";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +50,7 @@ const queryClient = new QueryClient();
 function getRoleHome(role: string) {
   if (role === "superadmin") return "/superadmin";
   if (role === "admin") return "/admin";
+  if (role === "dentist") return "/dentist";
   return "/patient";
 }
 
