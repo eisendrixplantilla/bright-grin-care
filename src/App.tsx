@@ -103,6 +103,15 @@ function AppRoutes() {
       <Route path="/superadmin/settings" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminSettings /></DashboardLayout></ProtectedRoute>} />
       <Route path="/superadmin/reports" element={<ProtectedRoute roles={["superadmin"]}><DashboardLayout><SuperAdminReports /></DashboardLayout></ProtectedRoute>} />
 
+      {/* Dentist Routes */}
+      <Route path="/dentist" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistDashboard /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/schedule" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistSchedule /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/appointments" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistAppointments /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/patient-history" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistPatientHistory /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/records" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistRecords /></DashboardLayout></ProtectedRoute>} />
+      <Route path="/dentist/profile" element={<ProtectedRoute roles={["dentist"]}><DashboardLayout><DentistProfile /></DashboardLayout></ProtectedRoute>} />
+
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
