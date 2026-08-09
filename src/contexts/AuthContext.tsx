@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import { isAccountActive } from "@/lib/accountStore";
 
 
-export type UserRole = "admin" | "patient" | "superadmin";
+export type UserRole = "admin" | "patient" | "superadmin" | "dentist";
 
 export interface User {
   id: string;
@@ -27,6 +27,7 @@ const MOCK_USERS: (User & { password: string })[] = [
   { id: "1", email: "admin@admin.com", name: "Dr. Sarah Chen", role: "admin", verified: true, password: "admin123" },
   { id: "2", email: "user@user.com", name: "John Smith", role: "patient", verified: true, password: "user123" },
   { id: "3", email: "super@admin.com", name: "Super Administrator", role: "superadmin", verified: true, password: "super123" },
+  { id: "4", email: "dentist@ayagdental.com", name: "Dr. Mike Johnson", role: "dentist", verified: true, password: "dentist123" },
 ];
 
 const STORAGE_KEY = "ayag_auth_user";
