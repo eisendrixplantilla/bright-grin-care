@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 
 export interface DentistSchedule {
+  id?: string;
   name: string;
   workingDays: number[]; // 0 = Sunday
   start: string;
