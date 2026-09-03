@@ -71,6 +71,19 @@ export const dentistSchedules: DentistSchedule[] = [
     leave: [],
     booked: { [dayKey(1)]: ["08:00"] },
   },
+  {
+    id: "4",
+    name: "Dr. Mike Johnson",
+    workingDays: [1, 2, 3, 4, 5],
+    start: "09:00",
+    end: "17:00",
+    lunchStart: "12:00",
+    lunchEnd: "13:00",
+    duration: 30,
+    maxPatientsPerDay: 10,
+    leave: [dayKey(7), dayKey(14)],
+    booked: { [dayKey(1)]: ["09:00", "10:00"] },
+  },
 ];
 
 export const toMinutes = (t: string) => {
