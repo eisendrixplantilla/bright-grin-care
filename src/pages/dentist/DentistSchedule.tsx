@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { dentistSchedules, DentistSchedule, toLabel, toMinutes } from "@/lib/dentistSchedules";
+import { dentistSchedules, type DentistSchedule, toLabel, toMinutes } from "@/lib/dentistSchedules";
 import { format, parseISO } from "date-fns";
 import {
   CalendarDays,
