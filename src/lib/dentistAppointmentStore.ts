@@ -23,18 +23,26 @@ export type DentistAppointment = {
   remarks?: string;
 };
 
+export type DentalRecordAudit = {
+  editedAt: string;
+  reason: string;
+  changes: string;
+};
+
 export type DentalRecord = {
   id: string;
-  appointmentId: number;
+  appointmentId?: number;
   patient: string;
   dentist: string;
   date: string;
   service: string;
   procedure: string;
   diagnosis: string;
+  toothNumber?: string;
   treatmentNotes: string;
   prescription: string;
   nextVisit?: string;
+  audit?: DentalRecordAudit[];
 };
 
 const iso = (d: Date) => d.toISOString().split("T")[0];
