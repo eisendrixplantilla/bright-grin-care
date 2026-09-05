@@ -102,3 +102,30 @@ export function completeConsultation(id: number, record: Omit<DentalRecord, "id"
   appointments = appointments.map(a => (a.id === id ? { ...a, status: "completed" } : a));
   emit();
 }
+
+export function createDentalRecord(record: Omit<DentalRecord, "id">) {
+  records = [{ ...record, id: `DR-${Date.now()}` }, ...records];
+  emit();
+}
+
+export function correctDentalRecord(
+  id: string,
+  changes: Partial<Pick<DentalRecord, "diagnosis" | "procedure" | "toothNumber" | "treatmentNotes" | "prescription" | "nextVisit">>,
+  reason: string,
+) {
+  records = records.map(r => {
+    if (r.id !== id) return r;
+    const changeSummary = Object.entries(changes)
+      .map(([field, value]) => `${field}: "${r[field as keyof DentalRecord] ?? ""}" → "${value ?? ""}"`)
+      .join("; ");
+    return {
+      ...r,
+      ...changes,
+      audit: [
+        ...(r.audit ?? []),
+        { editedAt: new Date().toISOString(), reason, changes: changeSummary },
+      ],
+    };
+  });
+  emit();
+}
