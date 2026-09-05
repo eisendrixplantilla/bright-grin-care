@@ -23,18 +23,26 @@ export type DentistAppointment = {
   remarks?: string;
 };
 
+export type DentalRecordAudit = {
+  editedAt: string;
+  reason: string;
+  changes: string;
+};
+
 export type DentalRecord = {
   id: string;
-  appointmentId: number;
+  appointmentId?: number;
   patient: string;
   dentist: string;
   date: string;
   service: string;
   procedure: string;
   diagnosis: string;
+  toothNumber?: string;
   treatmentNotes: string;
   prescription: string;
   nextVisit?: string;
+  audit?: DentalRecordAudit[];
 };
 
 const iso = (d: Date) => d.toISOString().split("T")[0];
@@ -92,5 +100,32 @@ export function cancelAppointment(id: number, reason: string, remarks?: string) 
 export function completeConsultation(id: number, record: Omit<DentalRecord, "id" | "appointmentId">) {
   records = [{ ...record, id: `DR-${Date.now()}`, appointmentId: id }, ...records];
   appointments = appointments.map(a => (a.id === id ? { ...a, status: "completed" } : a));
+  emit();
+}
+
+export function createDentalRecord(record: Omit<DentalRecord, "id">) {
+  records = [{ ...record, id: `DR-${Date.now()}` }, ...records];
+  emit();
+}
+
+export function correctDentalRecord(
+  id: string,
+  changes: Partial<Pick<DentalRecord, "diagnosis" | "procedure" | "toothNumber" | "treatmentNotes" | "prescription" | "nextVisit">>,
+  reason: string,
+) {
+  records = records.map(r => {
+    if (r.id !== id) return r;
+    const changeSummary = Object.entries(changes)
+      .map(([field, value]) => `${field}: "${r[field as keyof DentalRecord] ?? ""}" → "${value ?? ""}"`)
+      .join("; ");
+    return {
+      ...r,
+      ...changes,
+      audit: [
+        ...(r.audit ?? []),
+        { editedAt: new Date().toISOString(), reason, changes: changeSummary },
+      ],
+    };
+  });
   emit();
 }
