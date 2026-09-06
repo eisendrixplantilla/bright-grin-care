@@ -106,6 +106,7 @@
   .gradient-primary {
     background: var(--gradient-primary);
   }
+PLACEHOLDER_KEEP
   .gradient-sidebar {
     background: var(--gradient-sidebar);
   }
