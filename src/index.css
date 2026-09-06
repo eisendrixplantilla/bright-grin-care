@@ -116,3 +116,40 @@
     box-shadow: var(--shadow-elevated);
   }
 }
+
+/* ---------- Print styles: dashboards print statistics only ---------- */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  /* hide sidebar chrome, mobile trigger, and the sticky header */
+  [data-sidebar],
+  [data-sidebar="trigger"],
+  [data-sidebar="rail"],
+  [class*="h-svh"],
+  header,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .shadow-card,
+  .shadow-elevated {
+    box-shadow: none !important;
+  }
+
+  .shadow-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
