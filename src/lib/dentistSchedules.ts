@@ -1,4 +1,13 @@
 import { format } from "date-fns";
+import { useSyncExternalStore } from "react";
+
+export type UnavailableType = "Vacation Leave" | "Sick Leave" | "Holiday" | "Emergency Leave";
+
+export interface UnavailableDate {
+  date: string; // yyyy-MM-dd
+  type: UnavailableType;
+  note?: string;
+}
 
 export interface DentistSchedule {
   id?: string;
@@ -11,6 +20,7 @@ export interface DentistSchedule {
   duration: number; // minutes
   maxPatientsPerDay: number;
   leave: string[]; // yyyy-MM-dd
+  unavailable?: UnavailableDate[];
   booked: Record<string, string[]>; // yyyy-MM-dd -> ["09:00", ...]
 }
 
@@ -22,7 +32,7 @@ const dayKey = (offset: number) => {
   return toKey(d);
 };
 
-export const dentistSchedules: DentistSchedule[] = [
+const defaultSchedules: DentistSchedule[] = [
   {
     name: "Dr. Ayag",
     workingDays: [1, 2, 3, 4, 5],
@@ -33,6 +43,7 @@ export const dentistSchedules: DentistSchedule[] = [
     duration: 30,
     maxPatientsPerDay: 10,
     leave: [dayKey(3)],
+    unavailable: [{ date: dayKey(3), type: "Vacation Leave" }],
     booked: { [dayKey(1)]: ["09:00", "09:30", "13:00"] },
   },
   {
@@ -45,6 +56,7 @@ export const dentistSchedules: DentistSchedule[] = [
     duration: 30,
     maxPatientsPerDay: 6,
     leave: [],
+    unavailable: [],
     booked: { [dayKey(2)]: ["10:00", "10:30"] },
   },
   {
@@ -57,6 +69,7 @@ export const dentistSchedules: DentistSchedule[] = [
     duration: 45,
     maxPatientsPerDay: 5,
     leave: [dayKey(5)],
+    unavailable: [{ date: dayKey(5), type: "Sick Leave" }],
     booked: {},
   },
   {
@@ -69,6 +82,7 @@ export const dentistSchedules: DentistSchedule[] = [
     duration: 60,
     maxPatientsPerDay: 4,
     leave: [],
+    unavailable: [],
     booked: { [dayKey(1)]: ["08:00"] },
   },
   {
@@ -82,9 +96,92 @@ export const dentistSchedules: DentistSchedule[] = [
     duration: 30,
     maxPatientsPerDay: 10,
     leave: [dayKey(7), dayKey(14)],
+    unavailable: [
+      { date: dayKey(7), type: "Vacation Leave" },
+      { date: dayKey(14), type: "Holiday" },
+    ],
     booked: { [dayKey(1)]: ["09:00", "10:00"] },
   },
 ];
+
+const STORAGE_KEY = "ayag_dentist_schedules";
+
+function load(): DentistSchedule[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw) as DentistSchedule[];
+  } catch {}
+  return defaultSchedules;
+}
+
+export let dentistSchedules: DentistSchedule[] = load();
+
+const listeners = new Set<() => void>();
+const emit = () => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dentistSchedules));
+  } catch {}
+  listeners.forEach(l => l());
+};
+const subscribe = (l: () => void) => {
+  listeners.add(l);
+  return () => {
+    listeners.delete(l);
+  };
+};
+
+export const getDentistSchedules = () => dentistSchedules;
+
+export function useDentistSchedules() {
+  return useSyncExternalStore(subscribe, getDentistSchedules, getDentistSchedules);
+}
+
+export function findSchedule(nameOrId: string) {
+  return dentistSchedules.find(s => s.id === nameOrId) ?? dentistSchedules.find(s => s.name === nameOrId);
+}
+
+/** Saves (or creates) a dentist's working configuration; slots are regenerated automatically. */
+export function saveDentistSchedule(name: string, patch: Partial<DentistSchedule>) {
+  const existing = dentistSchedules.find(s => s.name === name);
+  if (existing) {
+    dentistSchedules = dentistSchedules.map(s => (s.name === name ? { ...s, ...patch, name } : s));
+  } else {
+    dentistSchedules = [
+      ...dentistSchedules,
+      {
+        name,
+        workingDays: [1, 2, 3, 4, 5],
+        start: "09:00",
+        end: "17:00",
+        lunchStart: "12:00",
+        lunchEnd: "13:00",
+        duration: 30,
+        maxPatientsPerDay: 10,
+        leave: [],
+        unavailable: [],
+        booked: {},
+        ...patch,
+      },
+    ];
+  }
+  emit();
+}
+
+export function addUnavailableDate(name: string, entry: UnavailableDate) {
+  const s = dentistSchedules.find(x => x.name === name);
+  if (!s) return;
+  const unavailable = [...(s.unavailable ?? []).filter(u => u.date !== entry.date), entry].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+  saveDentistSchedule(name, { unavailable, leave: unavailable.map(u => u.date) });
+}
+
+export function removeUnavailableDate(name: string, date: string) {
+  const s = dentistSchedules.find(x => x.name === name);
+  if (!s) return;
+  const unavailable = (s.unavailable ?? []).filter(u => u.date !== date);
+  saveDentistSchedule(name, { unavailable, leave: unavailable.map(u => u.date) });
+}
 
 export const toMinutes = (t: string) => {
   const [h, m] = t.split(":").map(Number);
@@ -109,6 +206,7 @@ export function generateSlots(
   if (!schedule || !date) return [];
   const key = toKey(date);
   if (schedule.leave.includes(key)) return [];
+  if ((schedule.unavailable ?? []).some(u => u.date === key)) return [];
   if (!schedule.workingDays.includes(date.getDay())) return [];
 
   const booked = schedule.booked[key] ?? [];
