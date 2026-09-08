@@ -69,7 +69,12 @@ export function deleteAccount(id: string): { ok: boolean; reason?: string } {
 
 /** Used by auth to block deactivated patients from logging in. */
 export function isAccountActive(email: string) {
-  const a = load().find(x => x.email.toLowerCase() === email.toLowerCase());
+  const lower = email.toLowerCase();
+  try {
+    const raw = localStorage.getItem("ayag_patient_accounts_archived");
+    if (raw && (JSON.parse(raw) as PatientAccount[]).some(x => x.email.toLowerCase() === lower)) return false;
+  } catch {}
+  const a = load().find(x => x.email.toLowerCase() === lower);
   return !a || a.status === "active";
 }
 
