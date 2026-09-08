@@ -54,10 +54,11 @@ export default function SuperAdminArchives() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
+                <TableHead>Employee ID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead>Archived On</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -65,14 +66,15 @@ export default function SuperAdminArchives() {
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-muted-foreground py-8">No archived staff</TableCell>
+                  <TableCell colSpan={7} className="text-center text-muted-foreground py-8">No archived staff</TableCell>
                 </TableRow>
               ) : filtered.map(s => (
                 <TableRow key={s.id}>
                   <TableCell className="font-mono text-sm">{s.id}</TableCell>
                   <TableCell className="font-medium">{s.name}</TableCell>
                   <TableCell>{s.email}</TableCell>
-                  <TableCell><Badge variant="outline" className="bg-secondary text-secondary-foreground">Clinic Staff</Badge></TableCell>
+                  <TableCell><Badge variant="outline" className="bg-secondary text-secondary-foreground">{s.role === "dentist" ? "Dentist" : "Admin"}</Badge></TableCell>
+                  <TableCell><Badge variant="outline" className="bg-muted text-muted-foreground">Archived</Badge></TableCell>
                   <TableCell>{s.archivedAt}</TableCell>
                   <TableCell>
                     <Button variant="ghost" size="sm" onClick={() => { restoreStaff(s.id); toast.success("Staff account restored"); }}>
