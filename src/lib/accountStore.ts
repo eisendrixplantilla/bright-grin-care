@@ -12,6 +12,8 @@ export type PatientAccount = {
   dentalRecords: number;
   phone?: string;
   lastLogin?: string;
+  archivedAt?: string;
+  archivedBy?: string;
 };
 
 const STORAGE_KEY = "ayag_patient_accounts";
@@ -67,10 +69,59 @@ export function deleteAccount(id: string): { ok: boolean; reason?: string } {
 
 /** Used by auth to block deactivated patients from logging in. */
 export function isAccountActive(email: string) {
-  const a = load().find(x => x.email.toLowerCase() === email.toLowerCase());
+  const lower = email.toLowerCase();
+  try {
+    const raw = localStorage.getItem("ayag_patient_accounts_archived");
+    if (raw && (JSON.parse(raw) as PatientAccount[]).some(x => x.email.toLowerCase() === lower)) return false;
+  } catch {}
+  const a = load().find(x => x.email.toLowerCase() === lower);
   return !a || a.status === "active";
 }
 
 export function usePatientAccounts() {
   return useSyncExternalStore(subscribe, getAccounts, getAccounts);
+}
+
+/* ---------------- Archived patient accounts ---------------- */
+
+const ARCHIVE_KEY = "ayag_patient_accounts_archived";
+
+function loadArchived(): PatientAccount[] {
+  try {
+    const raw = localStorage.getItem(ARCHIVE_KEY);
+    if (raw) return JSON.parse(raw) as PatientAccount[];
+  } catch {}
+  return [];
+}
+
+let archivedAccounts: PatientAccount[] = loadArchived();
+
+const persistArchived = () => {
+  try { localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archivedAccounts)); } catch {}
+};
+
+export function archivePatientAccount(id: string, archivedBy = "Super Admin") {
+  const a = accounts.find(x => x.id === id);
+  if (!a) return;
+  accounts = accounts.filter(x => x.id !== id);
+  archivedAccounts = [
+    { ...a, status: "inactive", archivedAt: new Date().toISOString().slice(0, 10), archivedBy },
+    ...archivedAccounts,
+  ];
+  persistArchived();
+  emit();
+}
+
+export function restorePatientAccount(id: string) {
+  const a = archivedAccounts.find(x => x.id === id);
+  if (!a) return;
+  const { archivedAt, archivedBy, ...rest } = a;
+  archivedAccounts = archivedAccounts.filter(x => x.id !== id);
+  accounts = [...accounts, { ...rest, status: "active" }];
+  persistArchived();
+  emit();
+}
+
+export function useArchivedPatientAccounts() {
+  return useSyncExternalStore(subscribe, () => archivedAccounts, () => archivedAccounts);
 }

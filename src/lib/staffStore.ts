@@ -13,6 +13,7 @@ export type Staff = {
   status: string;
   joined: string;
   archivedAt?: string;
+  archivedBy?: string;
 };
 
 const STORAGE_KEY = "ayag_staff_accounts";
@@ -69,12 +70,12 @@ export function updateStaff(id: string, patch: Partial<Omit<Staff, "id">>) {
   emit();
 }
 
-export function archiveStaff(id: string) {
+export function archiveStaff(id: string, archivedBy = "Super Admin") {
   const s = state.active.find(x => x.id === id);
   if (!s) return;
   state = {
     active: state.active.filter(x => x.id !== id),
-    archived: [{ ...s, status: "archived", archivedAt: new Date().toISOString().slice(0, 10) }, ...state.archived],
+    archived: [{ ...s, status: "archived", archivedAt: new Date().toISOString().slice(0, 10), archivedBy }, ...state.archived],
   };
   emit();
 }
