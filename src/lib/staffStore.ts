@@ -97,3 +97,8 @@ export function useActiveStaff() {
 export function useArchivedStaff() {
   return useSyncExternalStore(subscribe, () => state.archived, () => state.archived);
 }
+
+/** Active + archived accounts — used for duplicate checks. */
+export function getAllStaff() {
+  return [...state.active, ...state.archived];
+}
