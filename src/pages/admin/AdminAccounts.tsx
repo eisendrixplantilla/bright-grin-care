@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import {
   usePatientAccounts,
   setAccountStatus,
-  deleteAccount,
+  archivePatientAccount,
   canDeleteAccount,
   type PatientAccount,
 } from "@/lib/accountStore";
@@ -45,12 +45,12 @@ export default function AdminAccounts() {
   };
 
   const remove = (a: PatientAccount) => {
-    const res = deleteAccount(a.id);
-    if (!res.ok) {
-      toast.error(res.reason ?? "Unable to delete this account.");
+    if (!canDeleteAccount(a)) {
+      toast.error("This account has existing appointments or dental records and cannot be archived.");
       return;
     }
-    toast.success(`${a.name}'s account has been deleted.`);
+    archivePatientAccount(a.id);
+    toast.success(`${a.name}'s account has been moved to the Archive.`);
     setSelected(null);
   };
 
