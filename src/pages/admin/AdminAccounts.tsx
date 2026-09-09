@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Eye, CheckCircle2, Ban, Trash2 } from "lucide-react";
+import { Search, Eye, CheckCircle2, Ban, Archive } from "lucide-react";
 import { toast } from "sonner";
 import {
   usePatientAccounts,
