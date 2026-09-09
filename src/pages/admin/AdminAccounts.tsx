@@ -155,7 +155,7 @@ export default function AdminAccounts() {
               <Row label="Dental Records" value={String(selectedLive.dentalRecords)} />
               {!canDeleteAccount(selectedLive) && (
                 <p className="text-xs text-muted-foreground border rounded-md p-2">
-                  This account has existing appointments or dental records, so it cannot be deleted. Deactivate it instead.
+                  This account has existing appointments or dental records, so it cannot be archived. Deactivate it instead.
                 </p>
               )}
             </div>
@@ -169,11 +169,11 @@ export default function AdminAccounts() {
             ))}
             {selectedLive && (
               <Button
-                variant="destructive"
+                variant="outline"
                 disabled={!canDeleteAccount(selectedLive)}
                 onClick={() => remove(selectedLive)}
               >
-                <Trash2 className="w-4 h-4 mr-1" /> Delete
+                <Archive className="w-4 h-4 mr-1" /> Archive
               </Button>
             )}
           </DialogFooter>
