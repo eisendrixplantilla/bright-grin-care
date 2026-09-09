@@ -32,7 +32,7 @@ const patientNav = [
 const superAdminNav = [
   { title: "Dashboard", url: "/superadmin", icon: LayoutDashboard },
   { title: "Staff Management", url: "/superadmin/staff", icon: UserCog },
-  { title: "Archived Staff", url: "/superadmin/archives", icon: Archive },
+  { title: "Archive", url: "/superadmin/archives", icon: Archive },
   { title: "System Settings", url: "/superadmin/settings", icon: Settings },
   { title: "Reports & Analytics", url: "/superadmin/reports", icon: BarChart3 },
 ];
