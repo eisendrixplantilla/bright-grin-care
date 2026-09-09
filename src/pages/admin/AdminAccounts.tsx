@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Eye, CheckCircle2, Ban, Trash2 } from "lucide-react";
+import { Search, Eye, CheckCircle2, Ban, Archive } from "lucide-react";
 import { toast } from "sonner";
 import {
   usePatientAccounts,
   setAccountStatus,
-  deleteAccount,
+  archivePatientAccount,
   canDeleteAccount,
   type PatientAccount,
 } from "@/lib/accountStore";
@@ -45,12 +45,12 @@ export default function AdminAccounts() {
   };
 
   const remove = (a: PatientAccount) => {
-    const res = deleteAccount(a.id);
-    if (!res.ok) {
-      toast.error(res.reason ?? "Unable to delete this account.");
+    if (!canDeleteAccount(a)) {
+      toast.error("This account has existing appointments or dental records and cannot be archived.");
       return;
     }
-    toast.success(`${a.name}'s account has been deleted.`);
+    archivePatientAccount(a.id);
+    toast.success(`${a.name}'s account has been moved to the Archive.`);
     setSelected(null);
   };
 
@@ -155,7 +155,7 @@ export default function AdminAccounts() {
               <Row label="Dental Records" value={String(selectedLive.dentalRecords)} />
               {!canDeleteAccount(selectedLive) && (
                 <p className="text-xs text-muted-foreground border rounded-md p-2">
-                  This account has existing appointments or dental records, so it cannot be deleted. Deactivate it instead.
+                  This account has existing appointments or dental records, so it cannot be archived. Deactivate it instead.
                 </p>
               )}
             </div>
@@ -169,11 +169,11 @@ export default function AdminAccounts() {
             ))}
             {selectedLive && (
               <Button
-                variant="destructive"
+                variant="outline"
                 disabled={!canDeleteAccount(selectedLive)}
                 onClick={() => remove(selectedLive)}
               >
-                <Trash2 className="w-4 h-4 mr-1" /> Delete
+                <Archive className="w-4 h-4 mr-1" /> Archive
               </Button>
             )}
           </DialogFooter>
